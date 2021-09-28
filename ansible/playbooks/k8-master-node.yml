@@ -1,0 +1,26 @@
+# Desciption of the Ansible playbook
+---
+- name: install kubeadmin
+  hosts: master
+  become: true # true to become root
+
+  tasks:
+    #  Update the below command with the ip address of kmaster
+    - name: Initialize Kubernetes Cluster
+      shell: |
+        kubeadm init --apiserver-advertise-address={{ inventory_hostname }} --pod-network-cidr=192.168.0.0/16  --ignore-preflight-errors=all --v=5
+    - name: Deploy Calico network
+      shell: |
+        kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
+    - name: Cluster join command
+      shell: |
+        kubeadm token create --print-join-command > command.sh
+
+    - name: Update
+      tags:
+        - copy-file
+      shell: |
+        mkdir -p /home/global/.kube
+        cp -i /etc/kubernetes/admin.conf /home/global/.kube/config
+        chown 770 /home/global/.kube/config
+        chown -R global:global /home/global/.kube/config

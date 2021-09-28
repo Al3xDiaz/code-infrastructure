@@ -1,0 +1,16 @@
+# Desciption of the Ansible playbook
+---
+- name: install tools
+  hosts: cloud_vm
+  become: true # true to become root
+
+  tasks:
+# update
+  - name: "Update Repository cache"
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+      force_apt_get: true
+  - name: Install nginx
+    apt:
+      name: nginx

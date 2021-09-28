@@ -1,0 +1,13 @@
+FROM ubuntu:20.04
+RUN apt update && apt install -y python3 ansible openssh-client
+USER root
+
+WORKDIR /root/
+COPY ["./ansible/","."]
+
+RUN echo "cat /root/ssh-keys/ansible.pub || ssh-keygen -b 3072 -t rsa -f /root/ssh-keys/ansible -q -N '' -C ansible" > setup.sh
+RUN echo "ansible all --key-file ~/ssh-keys/ansible -m ping" >> setup.sh
+RUN echo "tail -f /dev/null" >> setup.sh
+
+RUN chmod +x setup.sh
+ENTRYPOINT [ "sh","setup.sh" ]

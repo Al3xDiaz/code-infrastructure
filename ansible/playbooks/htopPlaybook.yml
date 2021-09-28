@@ -1,0 +1,10 @@
+# Desciption of the Ansible playbook
+---
+- name: install tools
+  hosts: all
+  become: true # true to become root
+
+  tasks:
+  - name: Simple install task htop
+    apt:
+      name: htop

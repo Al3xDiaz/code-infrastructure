@@ -1,0 +1,11 @@
+# Desciption of the Ansible playbook
+---
+- name: install kubeadmin
+  hosts: worker
+  become: true # true to become root
+
+  tasks:
+  - name: Cluster join command
+    shell: |
+       
+       

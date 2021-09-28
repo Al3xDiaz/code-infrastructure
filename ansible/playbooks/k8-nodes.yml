@@ -1,0 +1,36 @@
+# Desciption of the Ansible playbook
+---
+- name: install kubeadmin
+  hosts: all
+  become: true # true to become root
+
+  tasks:
+  - name: Kubernetes Setup
+    shell: |
+          ufw disable
+          swapoff -a; sed -i '/swap/d' /etc/fstab
+          cat >>/etc/sysctl.d/kubernetes.conf<<EOF
+          net.bridge.bridge-nf-call-ip6tables = 1
+          net.bridge.bridge-nf-call-iptables = 1
+          EOF
+          sysctl --system
+  - name: Add Apt repository
+    shell: |
+            curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+            echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
+
+# update
+  - name: "Update Repository cache"
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+      force_apt_get: true
+      
+  - name: install packages needed to use the Kubernetes
+    shell: |
+          apt update
+          apt install -y kubeadm=1.18.5-00 kubelet=1.18.5-00 kubectl=1.18.5-00
+
+  
+
+        
