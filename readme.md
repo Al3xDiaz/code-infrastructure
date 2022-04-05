@@ -4,6 +4,7 @@
 # SERVER_HOST= IP public,IP private, domain or sub-domain
 # SERVER_USER= user for login in server
 # SERVER_NAME= identifier by server in playbooks
+rm -rf ansible/inventory || touch ansible/inventory
 SERVER_HOST="192.168.0.200" && \
 SERVER_USER="ansible" && \
 SERVER_NAME="mi_pc" && \
@@ -29,7 +30,7 @@ copy content by ./ansible/ssh-keys/ansible.pub in file ~/.ssh/authorized_keys in
 # #add --tags for exec one task
 # #add -i $inventoryfilepath for 
 # ping host:
-ansible all --key-file ~/ssh-keys/ansible -m ping
+ansible all --key-file ssh-keys/ansible -m ping
 
 ansible-playbook playbooks/htopPlaybook.yml 
 ansible-playbook playbooks/devopsPlaybook.yml 

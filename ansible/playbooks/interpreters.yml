@@ -3,6 +3,7 @@
 - name: install tools interpreters
   hosts: localhost
   become: true # true to become root
+  gather_facts: no
 
   tasks:
   # update
@@ -22,24 +23,10 @@
   - name: install node js
     tags:
       - nodejs
-    apt:
-      pkg:
+  - name: Install reqired packages
+    apt: name={{ item }} state=present
+    with_items:
+      - git
+      - curl
+      - wget
       - nodejs
-  - name: add tools by install pyhon
-    tags:
-      - python
-    apt:
-      pkg:
-        - wget
-        - build-essential
-        - libreadline-gplv2-dev
-        - libncursesw5-dev
-  - name: install python
-    tags:
-      - python
-    shell: |
-      wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
-      tar xzf Python-3.9.1.tgz
-      cd Python-3.9.1
-      make -j 2
-      make alt install
