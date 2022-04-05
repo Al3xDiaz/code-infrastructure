@@ -12,6 +12,10 @@ $SERVER_HOST  ansible_user=$SERVER_USER" >> ansible/inventory
 ```
 ## up
 ```docker
+#add ssh key
+export YOUR_IP=192.168.0.12
+export YOUR_USER=al3xdiaz
+docker-compose run --rm ansible ssh-copy-id -i ssh-keys/ansible $YOUR_USER@$YOUR_IP
 docker-compose up --build
 ```
 ## if ping is UNREACHABLE! or Failed to connect to...
@@ -30,6 +34,8 @@ ansible all --key-file ~/ssh-keys/ansible -m ping
 ansible-playbook playbooks/htopPlaybook.yml 
 ansible-playbook playbooks/devopsPlaybook.yml 
 ansible-playbook playbooks/devopsPlaybook.yml --tags "Install git"
+ansible-playbook playbooks/interpreters.yml --tags "nodejs"
+ansible-playbook playbooks/interpreters.yml --tags "python"
 
 ansible-playbook playbooks/k8-master.yml --ask-become-pass
 

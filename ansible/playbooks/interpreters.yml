@@ -1,0 +1,45 @@
+# Desciption of the Ansible playbook
+---
+- name: install tools interpreters
+  hosts: localhost
+  become: true # true to become root
+
+  tasks:
+  # update
+  - name: "Update Repository cache"
+    tags:
+      - nodejs
+      - python
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+      force_apt_get: true
+  - name: Add Node.js LTS
+    tags:
+      - nodejs
+    shell: |
+      curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+  - name: install node js
+    tags:
+      - nodejs
+    apt:
+      pkg:
+      - nodejs
+  - name: add tools by install pyhon
+    tags:
+      - python
+    apt:
+      pkg:
+        - wget
+        - build-essential
+        - libreadline-gplv2-dev
+        - libncursesw5-dev
+  - name: install python
+    tags:
+      - python
+    shell: |
+      wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+      tar xzf Python-3.9.1.tgz
+      cd Python-3.9.1
+      make -j 2
+      make alt install

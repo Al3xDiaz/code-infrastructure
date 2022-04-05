@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+    ansible:
+        container_name: ansible
+        image: custom-ansible
+        build: 
+            context: .
+            dockerfile: ./ansible/dockerfile
+        volumes: 
+            - "./ansible/playbooks:/home/ansible/playbooks"
+            - "./ansible/outputs:/home/ansible/outputs"
+            - "./vars/:/home/ansible/vars/"
+            - "./ansible/ssh-keys/:/home/ansible/ssh-keys/"
