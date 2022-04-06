@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools interpreters
-  hosts: localhost
+  hosts: all
   become: true # true to become root
   gather_facts: no
 
@@ -19,14 +19,11 @@
     tags:
       - nodejs
     shell: |
-      curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
-  - name: install node js
-    tags:
-      - nodejs
+        curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+        apt install nodejs -y
   - name: Install reqired packages
-    apt: name={{ item }} state=present
-    with_items:
-      - git
-      - curl
-      - wget
-      - nodejs
+    apt:
+      pkg:
+        - git
+        - curl
+        - wget

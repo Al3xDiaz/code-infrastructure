@@ -1,6 +1,8 @@
 version: '3.4'
 services:
     ansible:
+        environment:
+            - HOST_USER=${USER}
         container_name: ansible
         image: custom-ansible
         build: 
@@ -12,3 +14,4 @@ services:
             - "./vars/:/home/ansible/vars/"
             - "./ansible/ssh-keys/:/home/ansible/ssh-keys/"
             - "./ansible/inventory:/home/ansible/inventory"
+            - "./setup.sh:/home/ansible/setup.sh"
