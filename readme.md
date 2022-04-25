@@ -34,13 +34,13 @@ copy content by ./ansible/ssh-keys/ansible.pub in file ~/.ssh/authorized_keys in
 # ping host:
 ansible all --key-file ssh-keys/ansible -m ping
 
-ansible-playbook playbooks/htopPlaybook.yml 
-ansible-playbook playbooks/devopsPlaybook.yml 
-ansible-playbook playbooks/devopsPlaybook.yml --tags "Install git"
-ansible-playbook playbooks/interpreters.yml --tags "nodejs"
-ansible-playbook playbooks/interpreters.yml --tags "python"
+playbook playbooks/htopPlaybook.yml 
+playbook playbooks/devopsPlaybook.yml 
+playbook playbooks/devopsPlaybook.yml --tags "Install git"
+playbook playbooks/interpreters.yml --tags "nodejs"
+playbook playbooks/interpreters.yml --tags "python"
 
-ansible-playbook playbooks/k8-master.yml --ask-become-pass
+playbook playbooks/k8-master.yml --ask-become-pass
 
 # get list host enabled
 ansible all --list-hosts
