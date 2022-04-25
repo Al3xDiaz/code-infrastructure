@@ -8,8 +8,10 @@ rm -rf ansible/inventory || touch ansible/inventory
 SERVER_HOST="192.168.0.200" && \
 SERVER_USER="ansible" && \
 SERVER_NAME="mi_pc" && \
+GIT_NAME="YOUR_NAME" && \
+GIT_EMAIL="YOUR_EMAIL" && \
 echo "[$SERVER_NAME] 
-$SERVER_HOST  ansible_user=$SERVER_USER" >> ansible/inventory
+$SERVER_HOST  ansible_user=$SERVER_USER git_name=$GIT_NAME git_email=$GIT_EMAIL">> ansible/inventory
 ```
 ## up
 ```docker

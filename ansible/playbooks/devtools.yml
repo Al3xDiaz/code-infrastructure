@@ -2,6 +2,7 @@
 ---
 - name: install tools
   hosts: all
+  become: true
 # true to become root
 
   tasks:
@@ -13,6 +14,8 @@
       force_apt_get: true
 #dependences
   - name: install dependences
+    tags:
+      - git
     apt:
       pkg:
         - wget
@@ -21,70 +24,81 @@
         - dbus
         - git
         - less
+        - vim
+#git config
+  - name: configure git
+    tags: 
+      - git 
+    shell: |
+      git config --global user.email "{{ hostvars[inventory_hostname].git_email }}"
+      git config --global user.name "{{ hostvars[inventory_hostname].git_name }}"
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #gnome extentions
   - name: install
-    bash: |
+    shell: |
         wget -O gnome-shell-extension-installer "https://github.com/brunelli/gnome-shell-extension-installer/raw/master/gnome-shell-extension-installer"
         chmod +x gnome-shell-extension-installer
         mv gnome-shell-extension-installer /usr/bin/
 #install gnome extentios
   - name: "dash to dock"
-    bash: | 
+    shell: | 
         gnome-shell-extension-installer 307 # Install "Dash to Dock"
+        gnome-shell-extension-installer 3088 # Install "Extension list"
 #install VS code
   - name: downland vs code
-    bash: |
+    shell: |
       wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
       install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
       sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
       rm -f packages.microsoft.gpg
-# update
-  - name: "Update Repository cache"
-    apt:
-      update_cache: true
-      cache_valid_time: 3600
-      force_apt_get: true
-  - name: install vs code
-    apt:
-      pkg:
-        - code
+      apt update && apt install code
 #copyq
   - name: "install copyq"
     apt:
       pkg:
         - copyq
-#chrome
-  - name: "install chrome"
-    apt:
-      deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#install spotify
-  - name: Add Apt Keys
-    apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 state=present
-
-  - name: Add repository
-    apt_repository: repo='deb http://repository.spotify.com stable non-free'
-
-  - name: Install spotify
-    apt: name=spotify-client update_cache=yes state=latest
 
 #set alias 
   - name: aliases
-    bash: |
+    tags:
+      - alias
+    shell: |
       curl -s https://raw.githubusercontent.com/Al3xDiaz/shell-script/main/linux/comands.sh >> ~/.bashrc
-#set keyboard shotcuts
+      sed -i 's/#alias/alias/g' ~/.bashrc
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+#install spotify
+  - name: install spotify
+    tags:
+      - spotify
+    shell: |
+     apt-get upgrade -y
+     curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | apt-key add - keyserver=hkp://keyserver.ubuntu.com:80 id=931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 state=present
+     echo "deb http://repository.spotify.com stable non-free" | tee /etc/apt/sources.list.d/spotify.list
+     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5E3C45D7B312C643
+     apt-get update &&  apt-get install spotify-client -y
 
-  - name: shotcuts
-    bash: |
+
+#set keyboard shotcuts
+  - name: shortcuts
+    tags: 
+     - shortcuts
+    shell: |
       BEGINNING="gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 
       KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 
       gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
-#      "['$KEY_PATH/custom0/', '$KEY_PATH/custom1/', '$KEY_PATH/custom2/', '$KEY_PATH/custom3/', '$KEY_PATH/custom4/', '$KEY_PATH/custom5/']"
-      "[$KEY_PATH/custom0/]""
-
+      "['$KEY_PATH/custom0/']"
 
       # Launch Terminal
       $BEGINNING/custom0/ name "Gnome Terminal"
       $BEGINNING/custom0/ command "gnome-terminal"
-      $BEGINNING/custom0/ binding "<Super>`"
+      $BEGINNING/custom0/ binding "<Super>\`"
+      $BEGINNING/custom0/ binding "<Super>\`"
+
+#chrome
+  - name: "install chrome"
+    apt:
+      deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
