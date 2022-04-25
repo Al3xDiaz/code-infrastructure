@@ -59,10 +59,32 @@
       deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 #install spotify
   - name: Add Apt Keys
-  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 state=present
+    apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 state=present
 
   - name: Add repository
     apt_repository: repo='deb http://repository.spotify.com stable non-free'
 
   - name: Install spotify
     apt: name=spotify-client update_cache=yes state=latest
+
+#set alias 
+  - name: aliases
+    bash: |
+      curl -s https://raw.githubusercontent.com/Al3xDiaz/shell-script/main/linux/comands.sh >> ~/.bashrc
+#set keyboard shotcuts
+
+  - name: shotcuts
+    bash: |
+      BEGINNING="gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+
+      KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+
+      gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+#      "['$KEY_PATH/custom0/', '$KEY_PATH/custom1/', '$KEY_PATH/custom2/', '$KEY_PATH/custom3/', '$KEY_PATH/custom4/', '$KEY_PATH/custom5/']"
+      "[$KEY_PATH/custom0/]""
+
+
+      # Launch Terminal
+      $BEGINNING/custom0/ name "Gnome Terminal"
+      $BEGINNING/custom0/ command "gnome-terminal"
+      $BEGINNING/custom0/ binding "<Super>`"
