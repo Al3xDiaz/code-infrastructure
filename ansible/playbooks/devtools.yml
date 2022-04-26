@@ -64,7 +64,7 @@
     tags:
       - alias
     shell: |
-      curl -s https://raw.githubusercontent.com/Al3xDiaz/shell-script/main/linux/comands.sh >> ~/.bashrc
+      curl -s https://raw.githubusercontent.com/Al3xDiaz/shell-script/main/linux/.bashrc >> ~/.bashrc
       sed -i 's/#alias/alias/g' ~/.bashrc
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
@@ -102,3 +102,43 @@
   - name: "install chrome"
     apt:
       deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  
+#postman
+  - name: "downland postman"
+    tags:
+      - postman
+    get_url: 
+      url: https://dl.pstmn.io/download/latest/linux64 
+      dest: /tmp/linux64
+
+  - name: "extract postman"
+    tags:
+      - postman
+    shell: |
+      tar -xvf /tmp/linux64 -C /usr/bin
+
+  - name: "alias postman"
+    tags:
+      - postman
+    shell: |
+      echo 'export PATH="$PATH:/usr/bin/Postman"' >> ~/.bashrc
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+
+  - name: "create desktop access icon"
+    tags:
+      - postman
+    ansible.builtin.copy:
+      src: /home/ansible/files/desktop_access/Postman.desktop
+      dest: /usr/share/applications/
+      owner: "{{ hostvars[inventory_hostname].ansible_user }}"
+      group: "{{ hostvars[inventory_hostname].ansible_user }}"
+      mode: 0644 
+  
+  - name: Remove the installer
+    tags:
+      - postman
+    file: 
+      path: /tmp/linux64
+      state: absent
+
