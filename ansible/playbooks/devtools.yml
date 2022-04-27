@@ -8,6 +8,9 @@
   tasks:
 # update
   - name: "Update Repository cache"
+    tags:
+      - frontend
+      - backend
     apt:
       update_cache: true
       cache_valid_time: 3600
@@ -16,6 +19,8 @@
   - name: install dependences
     tags:
       - git
+      - frontend
+      - backend
     apt:
       pkg:
         - wget
@@ -25,10 +30,13 @@
         - git
         - less
         - vim
+        - pip
 #git config
   - name: configure git
     tags: 
-      - git 
+      - git
+      - frontend
+      - backend
     shell: |
       git config --global user.email "{{ hostvars[inventory_hostname].git_email }}"
       git config --global user.name "{{ hostvars[inventory_hostname].git_name }}"
@@ -36,12 +44,18 @@
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #gnome extentions
   - name: install
+    tags:
+      - frontend
+      - backend
     shell: |
         wget -O gnome-shell-extension-installer "https://github.com/brunelli/gnome-shell-extension-installer/raw/master/gnome-shell-extension-installer"
         chmod +x gnome-shell-extension-installer
         mv gnome-shell-extension-installer /usr/bin/
 #install gnome extentios
   - name: "gnome extentions"
+    tags:
+      - frontend
+      - backend
     shell: | 
         gnome-shell-extension-installer 307 # Install "Dash to Dock"
         gnome-shell-extension-installer 3088 # Install "Extension list"
@@ -50,12 +64,16 @@
 #fonts
   - name: "download fonts"
     tags:
+      - frontend
+      - backend
       - fonts
     get_url:
       url: https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip
       dest: /tmp/cascadia.zip
   - name: "install fonts"
     tags:
+      - frontend
+      - backend
       - fonts
     shell: |
       mkdir /tmp/fonts
@@ -68,6 +86,9 @@
 
 #install VS code
   - name: downland vs code
+    tags:
+      - frontend
+      - backend
     shell: |
       wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
       install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
@@ -76,6 +97,9 @@
       apt update && apt install code
 #copyq
   - name: "install copyq"
+    tags:
+      - frontend
+      - backend
     apt:
       pkg:
         - copyq
@@ -83,6 +107,8 @@
 #set alias 
   - name: aliases
     tags:
+      - frontend
+      - backend
       - alias
     shell: |
       curl -s https://raw.githubusercontent.com/Al3xDiaz/shell-script/main/linux/.bashrc >> ~/.bashrc
@@ -92,6 +118,8 @@
 #install spotify
   - name: install spotify
     tags:
+      - frontend
+      - backend
       - spotify
     shell: |
      apt-get upgrade -y
@@ -104,7 +132,9 @@
 #set keyboard shotcuts
   - name: shortcuts
     tags: 
-     - shortcuts
+      - frontend
+      - backend
+      - shortcuts
     shell: |
       BEGINNING="gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 
@@ -121,12 +151,17 @@
 
 #chrome
   - name: "install chrome"
+    tags:
+      - frontend
+      - backend
     apt:
       deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   
 #postman
   - name: "downland postman"
     tags:
+      - frontend
+      - backend
       - postman
     get_url: 
       url: https://dl.pstmn.io/download/latest/linux64 
@@ -135,11 +170,15 @@
   - name: "extract postman"
     tags:
       - postman
+      - frontend
+      - backend
     shell: |
       tar -xvf /tmp/linux64 -C /usr/bin
 
   - name: "alias postman"
     tags:
+      - frontend
+      - backend
       - postman
     shell: |
       echo 'export PATH="$PATH:/usr/bin/Postman"' >> ~/.bashrc
@@ -148,6 +187,8 @@
 
   - name: "create desktop access icon"
     tags:
+      - frontend
+      - backend
       - postman
     ansible.builtin.copy:
       src: /home/ansible/files/desktop_access/Postman.desktop
@@ -158,6 +199,8 @@
   
   - name: Remove the installer
     tags:
+      - frontend
+      - backend
       - postman
     file: 
       path: /tmp/linux64
@@ -165,6 +208,7 @@
 
   - name: "install node js"
     tags:
+      - frontend
       - nodejs
     shell: |
       curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
