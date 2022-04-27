@@ -41,10 +41,31 @@
         chmod +x gnome-shell-extension-installer
         mv gnome-shell-extension-installer /usr/bin/
 #install gnome extentios
-  - name: "dash to dock"
+  - name: "gnome extentions"
     shell: | 
         gnome-shell-extension-installer 307 # Install "Dash to Dock"
         gnome-shell-extension-installer 3088 # Install "Extension list"
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+#fonts
+  - name: "download fonts"
+    tags:
+      - fonts
+    get_url:
+      url: https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip
+      dest: /tmp/cascadia.zip
+  - name: "install fonts"
+    tags:
+      - fonts
+    shell: |
+      mkdir /tmp/fonts
+      mv /tmp/cascadia.zip /tmp/fonts 
+      cd /tmp/fonts
+      unzip -o cascadia.zip
+      cp ttf/Cascadia* /home/{{ hostvars[inventory_hostname].ansible_user }}/.local/share/fonts
+      fc-cache -f -v
+      rm -rf /tmp/fonts
+
 #install VS code
   - name: downland vs code
     shell: |
