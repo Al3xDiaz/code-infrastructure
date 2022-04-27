@@ -163,3 +163,9 @@
       path: /tmp/linux64
       state: absent
 
+  - name: "install node js"
+    tags:
+      - nodejs
+    shell: |
+      curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+      apt-get install -y nodejs
