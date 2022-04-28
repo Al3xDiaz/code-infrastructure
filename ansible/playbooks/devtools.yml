@@ -213,3 +213,11 @@
     shell: |
       curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
       apt-get install -y nodejs
+  
+  - name: "run mysql faster"
+    tags:
+      - backend
+      - mysql
+    shell:
+      sed -i 's/remount-ro.*/remount-ro,barrier=0 0 1/g' /etc/fstab
+      reboot
