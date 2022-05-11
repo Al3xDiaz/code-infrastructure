@@ -3,6 +3,7 @@ USER root
 WORKDIR /home/ansible/
 RUN apt update && apt install -y python3 ansible openssh-client
 
+COPY ./ssh.config /root/.ssh/config
 COPY  ["./ansible/","."]
 
 COPY ./setup.sh .
