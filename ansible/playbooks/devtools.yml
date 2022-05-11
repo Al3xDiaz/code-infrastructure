@@ -218,6 +218,28 @@
     tags:
       - backend
       - mysql
-    shell:
+    shell: |
       sed -i 's/remount-ro.*/remount-ro,barrier=0 0 1/g' /etc/fstab
       reboot
+  
+  - name: "install golang"
+    tags:
+      - backend
+      - golang
+    shell: |
+      export GO_VERSION=$(curl -s https://go.dev/VERSION?m=text)
+      wget https://dl.google.com/go/$GO_VERSION.linux-amd64.tar.gz
+      tar xvf $GO_VERSION.linux-amd64.tar.gz -C /usr/local/
+      rm $GO_VERSION.linux-amd64.tar.gz
+  
+  - name: "add go_path to path global"
+    tags:
+      - backend
+      - golang
+      - go_envs
+    shell: |
+        echo "#go path by user
+        export GOPATH=$HOME/go
+        export GOBIN=$GOPATH/bin
+        export GOROOT=/usr/local/go
+        export PATH=\$PATH:\$GOBIN:\$GOROOT/bin" >> /home/{{ hostvars[inventory_hostname].ansible_user }}/.bashrc
