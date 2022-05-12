@@ -1,3 +1,5 @@
-ansible/inventory
+inventory
+.env
+*/inventory
 vars/
 ssh-keys/

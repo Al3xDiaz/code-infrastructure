@@ -42,6 +42,26 @@
       git config --global user.name "{{ hostvars[inventory_hostname].git_name }}"
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+  #ssh config
+  - name: "copy ssh config"
+    tags:
+      - ssh_config
+    ansible.builtin.copy:
+      src: /home/ansible/files/ssh.config
+      dest: ~/.ssh/config
+      mode: 0664 
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+  - name: "generate ssh key"
+    tags:
+      - ssh_config
+    shell: |
+      cat /home/$USER/.ssh/id_$USER || ssh-keygen -b 3072 -t rsa -f /home/$USER/.ssh/id_$USER -q -N '' -C {{ hostvars[inventory_hostname].git_email }}
+      eval $(ssh-agent -s)
+      ssh-add /home/$USER/.ssh/id_$USER
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+    
 #gnome extentions
   - name: install
     tags:
