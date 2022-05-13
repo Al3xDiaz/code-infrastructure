@@ -11,6 +11,7 @@
     tags:
       - nodejs
       - python
+      - golang
     apt:
       update_cache: true
       cache_valid_time: 3600
@@ -21,6 +22,7 @@
     shell: |
         curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
         apt install nodejs -y
+
   - name: Install reqired packages
     tags:
       - python
@@ -29,3 +31,22 @@
         - git
         - curl
         - wget
+  
+  - name: "install golang"
+    tags:
+      - golang
+    shell: |
+      export GO_VERSION=$(curl -s https://go.dev/VERSION?m=text)
+      wget https://dl.google.com/go/$GO_VERSION.linux-amd64.tar.gz
+      tar xvf $GO_VERSION.linux-amd64.tar.gz -C /usr/local/
+      rm $GO_VERSION.linux-amd64.tar.gz
+  
+  - name: "add go_path to path global"
+    tags:
+      - golang
+    shell: |
+        echo "#go path by user
+        export GOPATH=\$HOME/go
+        export GOBIN=\$GOPATH/bin
+        export GOROOT=/usr/local/go
+        export PATH=\$PATH:\$GOBIN:\$GOROOT/bin" >> /home/{{ hostvars[inventory_hostname].ansible_user }}/.bashrc
