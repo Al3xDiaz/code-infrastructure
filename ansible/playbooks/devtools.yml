@@ -55,10 +55,11 @@
   - name: "generate ssh key"
     tags:
       - ssh_config
+    args:
+      executable: /bin/bash
     shell: |
-      cat /home/$USER/.ssh/id_$USER || ssh-keygen -b 3072 -t rsa -f /home/$USER/.ssh/id_$USER -q -N '' -C {{ hostvars[inventory_hostname].git_email }}
-      eval $(ssh-agent -s)
-      ssh-add /home/$USER/.ssh/id_$USER
+        sed -i "s/id_rsa/id_$USER/g" /home/$USER/.ssh/config
+        ssh-keygen -b 3072 -t rsa -f /home/$USER/.ssh/id_$USER -q -N "$SSH_KEY_PASSPHRASE" -C "{{ hostvars[inventory_hostname].git_email }}"<<<y
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
     
