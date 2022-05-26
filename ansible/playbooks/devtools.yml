@@ -45,9 +45,9 @@
     ansible.builtin.copy:
       src: /home/ansible/files/.tmux.config
       dest: /etc/tmux.conf
-      owner: root
-      group: root
       mode: 0644
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
   - name: reload tmux
     tags:
       - tmux
