@@ -31,6 +31,28 @@
         - less
         - vim
         - pip
+  - name: install tmux
+    tags:
+      - tmux
+      - backend
+    apt:
+      pkg:
+        - tmux
+  - name: config tmux
+    tags:
+      - tmux
+      - backend
+    ansible.builtin.copy:
+      src: /home/ansible/files/.tmux.config
+      dest: /etc/tmux.conf
+      owner: root
+      group: root
+      mode: 0644
+  - name: reload tmux
+    tags:
+      - tmux
+      - backend
+    shell: "tmux source-file /etc/tmux.conf"
 #git config
   - name: configure git
     tags: 
