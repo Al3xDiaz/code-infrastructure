@@ -43,8 +43,8 @@
       - tmux
       - backend
     ansible.builtin.copy:
-      src: /home/ansible/files/.tmux.config
-      dest: /etc/tmux.conf
+      src: /home/ansible/files/.tmux.conf
+      dest: /home/{{ hostvars[inventory_hostname].ansible_user }}/.tmux.conf
       mode: 0644
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
@@ -52,7 +52,9 @@
     tags:
       - tmux
       - backend
-    shell: "tmux source-file /etc/tmux.conf"
+    shell: "tmux source-file .tmux.conf"
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #git config
   - name: configure git
     tags: 
