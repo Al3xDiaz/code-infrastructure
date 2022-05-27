@@ -190,7 +190,8 @@
 
       # Launch Terminal
       $BEGINNING/custom0/ name "Gnome Terminal"
-      $BEGINNING/custom0/ command "gnome-terminal"
+      # $BEGINNING/custom0/ command "gnome-terminal"
+      $BEGINNING/custom0/ command "gnome-terminal -e 'tmux -s ~/.tmux.conf'"
       $BEGINNING/custom0/ binding "<Super>\`"
       $BEGINNING/custom0/ binding "<Super>\`"
 
