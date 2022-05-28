@@ -196,6 +196,8 @@
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
   #more shortcuts
+  # TODO: if add more shortcuts, add them to the list
+  # use gsettings list-recursively | grep -i "custom" to get the path
   - name: system shortcuts
     tags: 
       - frontend
