@@ -175,7 +175,7 @@
 
 
 #set keyboard shotcuts
-  - name: shortcuts
+  - name: custom shortcuts
     tags: 
       - frontend
       - backend
@@ -188,13 +188,26 @@
 
       gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
       "['$KEY_PATH/custom0/']"
-
-      # Launch Terminal
-      $BEGINNING/custom0/ name "Gnome Terminal"
-      # $BEGINNING/custom0/ command "gnome-terminal"
+      
+      $BEGINNING/custom0/ name "Launch tmux with gnome-terminal"
       $BEGINNING/custom0/ command "gnome-terminal -e tmux"
-      $BEGINNING/custom0/ binding "<Super>\`"
-      $BEGINNING/custom0/ binding "<Super>\`"
+      $BEGINNING/custom0/ binding '<Super>grave'
+      
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+  #more shortcuts
+  - name: system shortcuts
+    tags: 
+      - frontend
+      - backend
+      - shortcuts
+      - tmux
+    shell: |
+      GSETTINGS_SCHEMA=org.gnome.desktop.wm.keybindings
+      gsettings set $GSETTINGS_SCHEMA show-desktop "['<Super>d']"
+
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 
 #chrome
   - name: "install chrome"
