@@ -52,7 +52,7 @@
     tags:
       - tmux
       - backend
-    shell: "tmux source-file .tmux.conf"
+    shell: "tmux new source-file ~/.tmux.conf"
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #git config
@@ -180,6 +180,7 @@
       - frontend
       - backend
       - shortcuts
+      - tmux
     shell: |
       BEGINNING="gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 
@@ -191,7 +192,7 @@
       # Launch Terminal
       $BEGINNING/custom0/ name "Gnome Terminal"
       # $BEGINNING/custom0/ command "gnome-terminal"
-      $BEGINNING/custom0/ command "gnome-terminal -e 'tmux -s ~/.tmux.conf'"
+      $BEGINNING/custom0/ command "gnome-terminal -e tmux"
       $BEGINNING/custom0/ binding "<Super>\`"
       $BEGINNING/custom0/ binding "<Super>\`"
 
