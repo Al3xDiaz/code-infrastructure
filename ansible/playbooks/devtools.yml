@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools
-  hosts: all
+  hosts: localhost
   become: true
 # true to become root
 
@@ -31,6 +31,10 @@
         - less
         - vim
         - pip
+#set vim as default editor
+  - name: set vim as default editor
+    shell: "update-alternatives --set editor /usr/bin/vim.basic"
+# Tmux
   - name: install tmux
     tags:
       - tmux
