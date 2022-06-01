@@ -7,7 +7,6 @@ services:
             SERVER_NAME: ${SERVER_NAME}
             GIT_NAME: ${GIT_NAME}
             GIT_EMAIL: ${GIT_EMAIL}
-            SSH_KEY_PASSPHRASE: ${SSH_KEY_PASSPHRASE}
         image: custom-ansible
         build: 
             context: .
@@ -20,5 +19,6 @@ services:
             - "./ansible/ssh-keys/:/home/ansible/ssh-keys/"
             - "./setup.sh:/home/ansible/setup.sh"
             - inventory:/home/ansible/inventory
+        command: ssh-copy-id -i ssh-keys/ansible -f ${SERVER_USER}@${SERVER_HOST}
 volumes:
     inventory:

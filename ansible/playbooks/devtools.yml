@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools
-  hosts: all
+  hosts: localhost
   become: true
 # true to become root
 
@@ -31,6 +31,10 @@
         - less
         - vim
         - pip
+#set vim as default editor
+  - name: set vim as default editor
+    shell: "update-alternatives --set editor /usr/bin/vim.basic"
+# Tmux
   - name: install tmux
     tags:
       - tmux
@@ -52,7 +56,7 @@
     tags:
       - tmux
       - backend
-    shell: "tmux source-file .tmux.conf"
+    shell: "tmux new source-file ~/.tmux.conf"
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #git config
@@ -175,11 +179,12 @@
 
 
 #set keyboard shotcuts
-  - name: shortcuts
+  - name: custom shortcuts
     tags: 
       - frontend
       - backend
       - shortcuts
+      - tmux
     shell: |
       BEGINNING="gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 
@@ -187,13 +192,28 @@
 
       gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
       "['$KEY_PATH/custom0/']"
+      
+      $BEGINNING/custom0/ name "Launch tmux with gnome-terminal"
+      $BEGINNING/custom0/ command "gnome-terminal -e tmux"
+      $BEGINNING/custom0/ binding '<Super>grave'
+      
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+  #more shortcuts
+  # TODO: if add more shortcuts, add them to the list
+  # use gsettings list-recursively | grep -i "custom" to get the path
+  - name: system shortcuts
+    tags: 
+      - frontend
+      - backend
+      - shortcuts
+      - tmux
+    shell: |
+      GSETTINGS_SCHEMA=org.gnome.desktop.wm.keybindings
+      gsettings set $GSETTINGS_SCHEMA show-desktop "['<Super>d']"
 
-      # Launch Terminal
-      $BEGINNING/custom0/ name "Gnome Terminal"
-      # $BEGINNING/custom0/ command "gnome-terminal"
-      $BEGINNING/custom0/ command "gnome-terminal -e 'tmux -s ~/.tmux.conf'"
-      $BEGINNING/custom0/ binding "<Super>\`"
-      $BEGINNING/custom0/ binding "<Super>\`"
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 
 #chrome
   - name: "install chrome"

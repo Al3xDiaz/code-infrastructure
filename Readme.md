@@ -14,11 +14,18 @@ GIT_NAME=YOUR_NAME
 GIT_EMAIL=YOUR_EMAIL" > .env
 ```
 
+## Build image
+
+```bash
+docker-compose build
+```
+
 ## Copy identity file 
 
 ```bash
-# Note: enter server's passphrase
-docker-compose run --rm ansible ssh-copy-id -i ssh-keys/ansible \$SERVER_USER@\$SERVER_NAME
+# Note: don't execute this script with handy cany extension, it will be executed with terminal
+docker-compose run --rm ansible
+
 ```
 
 ## Ping all host
@@ -26,7 +33,7 @@ docker-compose run --rm ansible ssh-copy-id -i ssh-keys/ansible \$SERVER_USER@\$
 #### copy content by ./ansible/ssh-keys/ansible.pub in file ~/.ssh/authorized_keys in your server.
 
 ```bash
-docker-compose up
+docker-compose run  --rm --entrypoint ansible ansible all --key-file ssh-keys/ansible -m ping 
 ```
 
 ## Commands available
