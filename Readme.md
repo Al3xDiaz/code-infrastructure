@@ -7,9 +7,9 @@
 # SERVER_HOST= IP public,IP private, domain or sub-domain
 # SERVER_USER= user for login in server
 # SERVER_NAME= identifier by server i playbooks
-echo "SERVER_HOST=192.168.0.200
-SERVER_USER=ansible
-SERVER_NAME=mi_pc
+echo "SERVER_HOST=$(hostname -I | awk '{print $1}')
+SERVER_USER=$USER
+SERVER_NAME=localhost
 GIT_NAME=YOUR_NAME
 GIT_EMAIL=YOUR_EMAIL" > .env
 ```
