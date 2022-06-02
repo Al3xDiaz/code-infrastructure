@@ -179,6 +179,22 @@
 
 
 #set keyboard shotcuts
+#note: find schemas in /usr/share/glib-2.0/schemas or:
+#gsettings list-recursively | egrep "Alt|Shift|Super|Space|Win|Meta|Primary|Control|Ctrl|Tab" | grep org.gnome | awk '{print $1}' | sort -u
+  - name: system shortcuts
+    tags:
+      - frontend
+      - backend
+      - shortcuts
+    shell: |
+      #set open file explorer with gsettings
+      gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>e']"
+      #set hide all normal windows with gsettings
+      GSETTINGS_SCHEMA=org.gnome.desktop.wm.keybindings
+      gsettings set $GSETTINGS_SCHEMA show-desktop "['<Super>d']"
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+
   - name: custom shortcuts
     tags: 
       - frontend
@@ -196,21 +212,6 @@
       $BEGINNING/custom0/ name "Launch tmux with gnome-terminal"
       $BEGINNING/custom0/ command "gnome-terminal -e tmux"
       $BEGINNING/custom0/ binding '<Super>grave'
-      
-    become: no
-    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
-  #more shortcuts
-  # TODO: if add more shortcuts, add them to the list
-  # use gsettings list-recursively | grep -i "custom" to get the path
-  - name: system shortcuts
-    tags: 
-      - frontend
-      - backend
-      - shortcuts
-      - tmux
-    shell: |
-      GSETTINGS_SCHEMA=org.gnome.desktop.wm.keybindings
-      gsettings set $GSETTINGS_SCHEMA show-desktop "['<Super>d']"
 
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
