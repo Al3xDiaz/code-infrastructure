@@ -31,7 +31,7 @@
         - less
         - vim
         - pip
-#set vim as default editor
+#set vim as default editor.
   - name: set vim as default editor
     shell: "update-alternatives --set editor /usr/bin/vim.basic"
 # Tmux
