@@ -61,7 +61,7 @@
     tags:
       - tmux
       - backend
-    shell: "tmux new source-file ~/.tmux.conf"
+    shell: "tmux source-file ~/.tmux.conf"
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #git config
