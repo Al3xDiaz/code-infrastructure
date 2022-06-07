@@ -215,7 +215,7 @@
       "['$KEY_PATH/custom0/']"
       
       $BEGINNING/custom0/ name "Launch tmux with gnome-terminal"
-      $BEGINNING/custom0/ command "gnome-terminal -e tmux"
+      $BEGINNING/custom0/ command "gnome-terminal -e tmux \"-L system\""
       $BEGINNING/custom0/ binding '<Super>grave'
 
     become: no
