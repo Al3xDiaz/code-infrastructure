@@ -46,12 +46,17 @@
     tags:
       - tmux
       - backend
-    ansible.builtin.copy:
-      src: /home/ansible/files/.tmux.conf
-      dest: /home/{{ hostvars[inventory_hostname].ansible_user }}/.tmux.conf
-      mode: 0644
+      - config
+    copy: 
+      src: '{{item}}'
+      dest: '/home/{{hostvars[inventory_hostname].ansible_user}}/'
+      mode: '0644'
+    loop:
+      - /home/ansible/files/.tmux.conf
+      - /home/ansible/files/.tmux.git.conf
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+
   - name: reload tmux
     tags:
       - tmux
