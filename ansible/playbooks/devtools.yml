@@ -197,6 +197,11 @@
       #set hide all normal windows with gsettings
       GSETTINGS_SCHEMA=org.gnome.desktop.wm.keybindings
       gsettings set $GSETTINGS_SCHEMA show-desktop "['<Super>d']"
+      #set switch aplications with gsettings
+      gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Alt>Tab']"
+      #set switch group with gsettings
+      set org.gnome.desktop.wm.keybindings switch-group "['<Super>Tab']"
+
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 
