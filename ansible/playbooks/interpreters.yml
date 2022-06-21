@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools interpreters
-  hosts: all
+  hosts: localhost
   become: true # true to become root
   gather_facts: no
 
@@ -36,6 +36,7 @@
     tags:
       - golang
     shell: |
+      rm -rf /usr/lib/go-1.6/ /usr/lib/go-1.6/src/ /usr/lib/go-1.6/src/runtime/ /usr/lib/go-1.6/src/runtime/race
       export GO_VERSION=$(curl -s https://go.dev/VERSION?m=text)
       wget https://dl.google.com/go/$GO_VERSION.linux-amd64.tar.gz
       tar xvf $GO_VERSION.linux-amd64.tar.gz -C /usr/local/
