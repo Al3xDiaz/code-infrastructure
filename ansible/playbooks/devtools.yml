@@ -11,6 +11,14 @@
     tags:
       - frontend
       - backend
+      - devops
+      - terraform
+      - gnupg
+      - ansible
+      - git
+      - docker
+      
+
     apt:
       update_cache: true
       cache_valid_time: 3600
@@ -21,6 +29,7 @@
       - git
       - frontend
       - backend
+      - devops
     apt:
       pkg:
         - wget
@@ -31,6 +40,8 @@
         - less
         - vim
         - pip
+        - software-properties-common
+        - gnupg
 #set vim as default editor.
   - name: set vim as default editor
     shell: "update-alternatives --set editor /usr/bin/vim.basic"
@@ -298,3 +309,19 @@
     shell: |
       sed -i 's/remount-ro.*/remount-ro,barrier=0 0 1/g' /etc/fstab
       reboot
+
+  - name: "install terraform latest with shell"
+    tags:
+      - backend
+      - terraform
+    shell: |
+      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      apt-get install terraform
+
+  - name: "install terraform latest with apt"
+    tags:
+      - backend
+      - terraform
+    apt:
+      deb: https://apt.releases.hashicorp.com/terraform_0.12.20_amd64.deb
