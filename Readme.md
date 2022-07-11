@@ -7,9 +7,9 @@
 # SERVER_HOST= IP public,IP private, domain or sub-domain
 # SERVER_USER= user for login in server
 # SERVER_NAME= identifier by server i playbooks
-echo "SERVER_HOST=$(hostname -I | awk '{print $1}')
+cat .env || echo "SERVER_HOST=$(hostname -I | awk '{print $1}')
 SERVER_USER=$USER
-SERVER_NAME=localhost
+SERVER_NAME=$(hostname -s)
 GIT_NAME=YOUR_NAME
 GIT_EMAIL=YOUR_EMAIL" > .env
 ```
@@ -43,7 +43,7 @@ docker-compose run  --rm --entrypoint ansible ansible all --key-file ssh-keys/an
 docker-compose run --rm ansible ansible all --list-hosts
 ```
 
-## IN Container
+## In Container
 
 ```bash
 # %%

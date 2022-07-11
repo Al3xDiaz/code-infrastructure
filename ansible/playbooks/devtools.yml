@@ -169,15 +169,15 @@
       pkg:
         - copyq
 
-#set alias 
+#set .bashrc 
   - name: aliases
     tags:
       - frontend
       - backend
       - alias
-    shell: |
-      curl -s https://raw.githubusercontent.com/Al3xDiaz/shell-script/main/linux/.bashrc >> ~/.bashrc
-      sed -i 's/#alias/alias/g' ~/.bashrc
+    copy:
+      src: '/home/ansible/files/.bashrc'
+      dest: '/home/{{ hostvars[inventory_hostname].ansible_user }}/.bashrc'
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #install spotify
