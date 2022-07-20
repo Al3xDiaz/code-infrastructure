@@ -32,7 +32,7 @@ ipv4(){
     hostname -I | awk '{print $1}'
 }
 alias grep="grep --color"
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-# if TERM_PROGRAM=vscode
-[[  "$TERM_PROGRAM" = "vscode" ]] && pwd || neofetch
+# print neofetch
+[[  "$TERM_PROGRAM" != "vscode" ]] && neofetch
