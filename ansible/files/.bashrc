@@ -11,7 +11,7 @@ gcommit() {
     git commit -m "$1"  
 }
 gpush(){
-    gcommit "$1" && git push
+    gcommit "$1" && git fetch && git pull && git push
 }
 alias pull="git pull"
 alias gfetch="git fetch"
@@ -22,7 +22,7 @@ tcommit() {
     sh ./test.sh && gcommit "$1"
 }
 tpush(){
-    tcommit "$1" && git push
+    tcommit "$1" && git fetch && git pull && git push
 }
 gstash(){
     git add .
