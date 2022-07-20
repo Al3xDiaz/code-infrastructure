@@ -1,7 +1,6 @@
 alias ll='ls -l'
 alias la='ls -lA'
 alias l='ls -CF'
-
 alias open=xdg-open
 
 gcommit() {
@@ -33,13 +32,7 @@ ipv4(){
     hostname -I | awk '{print $1}'
 }
 alias grep="grep --color"
-
-ipv4(){
-    hostname -I | awk '{print $1}'
-}
-alias grep="grep --color"
-
-#if not repository
-if [ ! -d .git ]; then
-    neofetch
-fi
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# if TERM_PROGRAM=vscode
+[[  "$TERM_PROGRAM" = "vscode" ]] && pwd || neofetch
