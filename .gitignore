@@ -2,4 +2,5 @@ inventory
 .env
 */inventory
 vars/
-ssh-keys/
+.ssh/
+ansible/hosts.csv

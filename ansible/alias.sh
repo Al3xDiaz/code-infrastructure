@@ -1,5 +1,5 @@
-alias ping="ansible all --key-file ssh-keys/ansible -m ping"
-alias playbook="ansible-playbook --key-file ssh-keys/ansible"
+alias ping="ansible all --key-file .ssh/ansible -m ping"
+alias playbook="ansible-playbook --key-file .ssh/ansible"
 alias hosts="ansible all --list-hosts"
 
 alias devopsPlaybook="playbook playbooks/devopsPlaybook.yml --ask-become-pass --tags"
