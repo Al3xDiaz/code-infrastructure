@@ -4,3 +4,7 @@ inventory
 vars/
 .ssh/
 ansible/hosts.csv
+
+#terraform
+.terraform/
+.terraform.lock.hcl
