@@ -1,5 +1,5 @@
 # ANSIBLE
-## Create env file
+## Create Hosts.csv
 
 #### Note: you must replace the variables with the values ​​of your servers
 
