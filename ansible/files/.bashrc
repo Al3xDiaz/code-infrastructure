@@ -8,6 +8,7 @@ greset() {
 }
 #GIT
 gcommit() {
+    git pull
     #do things with parameters like $1 such as
     git branch
     git add .
@@ -15,7 +16,7 @@ gcommit() {
     git commit -m "$1"  
 }
 gpush(){
-    gcommit "$1" && git fetch && git pull && git push
+    gcommit "$1" && git fetch && git push
 }
 alias pull="git pull"
 alias gfetch="git fetch"
@@ -25,7 +26,7 @@ tcommit() {
     sh ./test.sh && gcommit "$1"
 }
 tpush(){
-    tcommit "$1" && git fetch && git pull && git push
+    tcommit "$1" && git fetch && git push
 }
 gstash(){
     git add .
@@ -35,8 +36,6 @@ gstash(){
 alias dimages="docker images"
 alias dps="docker ps"
 alias dpsa="docker ps -a"
-alias ddimage="docker image rm -f $(docker images |  awk '{print $3}')"
-alias ddcontainer="docker container rm -f $(docker container ls -a | awk '{print $1}')"
 alias dprune="docker system prune -af"
 ipv4(){
     hostname -I | awk '{print $1}'
