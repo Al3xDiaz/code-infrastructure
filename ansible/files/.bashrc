@@ -6,7 +6,7 @@ alias open=xdg-open
 greset() {
     git reset --hard HEAD~$1
 }
-
+#GIT
 gcommit() {
     #do things with parameters like $1 such as
     git branch
@@ -31,6 +31,13 @@ gstash(){
     git add .
     git stash $@
 }
+#DOCKER
+alias dimages="docker images"
+alias dps="docker ps"
+alias dpsa="docker ps -a"
+alias ddimage="docker image rm -f $(docker images |  awk '{print $3}')"
+alias ddcontainer="docker container rm -f $(docker container ls -a | awk '{print $1}')"
+alias dprune="docker system prune -af"
 ipv4(){
     hostname -I | awk '{print $1}'
 }

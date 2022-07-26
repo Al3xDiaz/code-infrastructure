@@ -50,4 +50,4 @@
         export GOPATH=\$HOME/go
         export GOBIN=\$GOPATH/bin
         export GOROOT=/usr/local/go
-        export PATH=\$PATH:\$GOBIN:\$GOROOT/bin" >> /home/{{ hostvars[inventory_hostname].ansible_user }}/.bashrc
+        export PATH=\$PATH:\$GOBIN:\$GOROOT/bin" >> /{{ hostvars[inventory_hostname].ansible_user }}/.bashrc

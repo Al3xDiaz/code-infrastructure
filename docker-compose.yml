@@ -1,39 +1,34 @@
-version: '3.4'
+version: '3.9'
 services:
     ansible:
         image: custom-ansible
         build: 
             context: .
             dockerfile: ./ansible/dockerfile
-        volumes: 
-            - "./ansible/playbooks:/home/ansible/playbooks"
-            - "./ansible/files/:/home/ansible/files/"
-            - "./ansible/outputs:/home/ansible/outputs"
-            - "./ansible/vars/:/home/ansible/vars/"
-            - "./ansible/.ssh/:/home/ansible/.ssh/"
-            - "./setup.sh:/home/ansible/setup.sh"
-            - inventory:/home/ansible/inventory
-            - ./ansible/host.csv:/home/ansible/host.csv
+        volumes:  
+            - ./home/.ssh/:/root/.ssh/
+            - ./ansible/:/root/ansible/
+            - inventory:/root/ansible/inventory
     terraform:
         image: hashicorp/terraform
         environment:
-        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
         user: root
         volumes:
-        - ./files:/root/files
-        - ./terraform:/root/terraform
+            - ./home/.ssh/:/root/.ssh/
+            - ./terraform:/root/terraform
         working_dir: /root/terraform/
         entrypoint: ["/bin/sh"]
     packer:
         image: hashicorp/packer
         environment:
-        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
         user: root
         volumes:
-        - ./files:/root/files
-        - ./packer:/root/packer
+            - ./home/.ssh/:/root/.ssh/
+            - ./packer:/root/packer
         working_dir: /root/packer/
         entrypoint: ["/bin/sh"]
 volumes:

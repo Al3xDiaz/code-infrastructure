@@ -20,7 +20,7 @@
       tags:
         - copy-file
       shell: |
-        mkdir -p /home/global/.kube
-        cp -i /etc/kubernetes/admin.conf /home/global/.kube/config
-        chown 770 /home/global/.kube/config
-        chown -R global:global /home/global/.kube/config
+        mkdir -p /root/global/.kube
+        cp -i /etc/kubernetes/admin.conf /root/global/.kube/config
+        chown 770 /root/global/.kube/config
+        chown -R global:global /root/global/.kube/config

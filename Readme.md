@@ -35,7 +35,7 @@ docker-compose run --rm ansible ssh-copy-id  $SERVER_USER@$SERVER_HOST
 
 ## Ping all host
 #### Note: if ping is UNREACHABLE! or Failed to connect to...
-#### copy content by ./ansible/.ssh/ansible.pub in file ~/.ssh/authorized_keys in your server.
+#### copy content by ./root/.ssh/ansible.pub in file ~/.ssh/authorized_keys in your server.
 
 ```bash
 docker-compose up --build --remove-orphans
@@ -61,6 +61,7 @@ sh ansible/alias.sh
 # --tags #exec one task by tag
 # -i $inventoryfilepath #specify the path of the inventoriFle
 ```
+
 # terraforms_utils
 ## Set of utilities for Terraform.
 ### Config .env file:

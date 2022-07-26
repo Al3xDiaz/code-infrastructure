@@ -60,11 +60,11 @@
       - config
     copy: 
       src: '{{item}}'
-      dest: '/home/{{hostvars[inventory_hostname].ansible_user}}/'
+      dest: '/root/{{hostvars[inventory_hostname].ansible_user}}/'
       mode: '0644'
     loop:
-      - /home/ansible/files/.tmux.conf
-      - /home/ansible/files/.tmux.git.conf
+      - /root/ansible/files/.tmux.conf
+      - /root/ansible/files/.tmux.git.conf
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 
@@ -91,7 +91,7 @@
     tags:
       - ssh_config
     ansible.builtin.copy:
-      src: /home/ansible/files/ssh.config
+      src: /root/ansible/files/ssh.config
       dest: ~/.ssh/config
       mode: 0664 
     become: no
@@ -102,8 +102,8 @@
     args:
       executable: /bin/bash
     shell: |
-        sed -i "s/id_rsa/id_$USER/g" /home/$USER/.ssh/config
-        ssh-keygen -b 3072 -t rsa -f /home/$USER/.ssh/id_$USER -q -N "$SSH_KEY_PASSPHRASE" -C "{{ hostvars[inventory_hostname].git_email }}"<<<y
+        sed -i "s/id_rsa/id_$USER/g" /root/$USER/.ssh/config
+        ssh-keygen -b 3072 -t rsa -f /root/$USER/.ssh/id_$USER -q -N "$SSH_KEY_PASSPHRASE" -C "{{ hostvars[inventory_hostname].git_email }}"<<<y
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
     
@@ -145,7 +145,7 @@
       mv /tmp/cascadia.zip /tmp/fonts 
       cd /tmp/fonts
       unzip -o cascadia.zip
-      cp ttf/Cascadia* /home/{{ hostvars[inventory_hostname].ansible_user }}/.local/share/fonts
+      cp ttf/Cascadia* /root/{{ hostvars[inventory_hostname].ansible_user }}/.local/share/fonts
       fc-cache -f -v
       rm -rf /tmp/fonts
 
@@ -176,8 +176,8 @@
       - backend
       - alias
     copy:
-      src: '/home/ansible/files/.bashrc'
-      dest: '/home/{{ hostvars[inventory_hostname].ansible_user }}/.bashrc'
+      src: '/root/ansible/files/.bashrc'
+      dest: '/root/{{ hostvars[inventory_hostname].ansible_user }}/.bashrc'
     become: no
     become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
 #install spotify
@@ -279,7 +279,7 @@
       - backend
       - postman
     ansible.builtin.copy:
-      src: /home/ansible/files/desktop_access/Postman.desktop
+      src: /root/ansible/files/desktop_access/Postman.desktop
       dest: /usr/share/applications/
       owner: "{{ hostvars[inventory_hostname].ansible_user }}"
       group: "{{ hostvars[inventory_hostname].ansible_user }}"
