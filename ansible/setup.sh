@@ -1,4 +1,6 @@
-cat /root/.ssh/ansible.pub || ssh-keygen -b 3072 -t rsa -f /root/.ssh/ansible -q -N '' -C ansible
+if [ ! -f /root/.ssh/ansible ]; then
+    ssh-keygen -b 3072 -t rsa -f /root/.ssh/ansible -q -N '' -C ansible
+fi
 #create inventory file
 
 grep "^\(\([^, ]\+\),\?\)\{5\}$"  /root/ansible/hosts.csv | sed 's/^\([^, ]\+\),\([^, ]\+\),\([^, ]\+\),\([^, ]\+\),\([^, ]\+\)/Host \1\n\tHostName \2\n\tUser \3/g' > /root/.ssh/config

@@ -1,4 +1,37 @@
+# TERRAFORM
+
+
+### Config .env file:
+
+```bash
+cat .env || echo AWS_ACCESS_KEY_ID=""\nAWS_SECRET_ACCESS_KEY="" > .env
+```
+
+### Create terraform.tfvars file:
+
+```bash
+cat ./terraform/dev.tfvars || echo "# Declare variables
+instance_type = \"t2.micro\"
+image_id = \"ami-0b9c9d9c6b80f9f9e\"
+tags = {
+  Name = \"terraform-test\"
+}" > ./terraform/dev.tfvars
+```
+
+### Commands Terraform:
+
+```bash
+terraform init # Initialize the Terraform configuration.
+terraform plan # Generate a plan for the resources that Terraform would create.
+terraform plan -var-file=variables.tfvars # Generate a plan for the resources that Terraform would create.
+terraform apply # Apply the plan to the infrastructure.
+terraform destroy # Destroy the infrastructure.
+terraform output # Display the output values of the plan.
+terraform validate # Validate the configuration.
+```
+
 # ANSIBLE
+
 ## Create Hosts.csv
 
 #### Note: you must replace the variables with the values ​​of your servers
@@ -29,73 +62,36 @@ docker-compose build
 
 ```bash
 # Note: don't execute this script with handy cany extension, it will be executed with terminal
-docker-compose run --rm ansible ssh-copy-id  $SERVER_USER@$SERVER_HOST
-
+#docker-compose run --rm ansible ssh-copy-id  $SERVER_USER@$SERVER_HOST
 ```
 
-## Ping all host
-#### Note: if ping is UNREACHABLE! or Failed to connect to...
-#### copy content by ./root/.ssh/ansible.pub in file ~/.ssh/authorized_keys in your server.
+## Commands available without server password
 
 ```bash
-docker-compose up --build --remove-orphans
-```
-
-## Commands available
-### list all hosts
-
-```bash
+# list all hosts
 docker-compose run --rm ansible ansible all --list-hosts
+#Ping all hosts
+docker-compose run --rm ansible  ansible all -m ping
 ```
 
-## In Container
+## Commands available with server password
 
 ```bash
-# %%
-#docker-compose run --rm ansible bash
-# alias available:
-sh ansible/alias.sh
-
-## Ansible Flags
-# -ask-become-pass #require server password
-# --tags #exec one task by tag
-# -i $inventoryfilepath #specify the path of the inventoriFle
-```
-
-# terraforms_utils
-## Set of utilities for Terraform.
-### Config .env file:
-
-```bash
-cat .env || echo AWS_ACCESS_KEY_ID=""\nAWS_SECRET_ACCESS_KEY="" > .env
-```
-
-### create ssh key:
-
-```bash
-mkdir -p files && mkdir -p files/ssh-keys
-cat files/ssh-keys/terraform-key.pub || ssh-keygen -b 3072 -t rsa -f `pwd`/files/ssh-keys/terraform-key -q -N '' -C 'Terraform'
-```
-
-### Commands Terraform:
-
-```bash
-terraform init # Initialize the Terraform configuration.
-terraform plan # Generate a plan for the resources that Terraform would create.
-terraform plan -var-file=variables.tfvars # Generate a plan for the resources that Terraform would create.
-terraform apply # Apply the plan to the infrastructure.
-terraform destroy # Destroy the infrastructure.
-terraform output # Display the output values of the plan.
-terraform validate # Validate the configuration.
-```
-
-### Create terraform.tfvars file:
-
-```bash
-cat ./terraform/dev.tfvars || echo "# Declare variables
-instance_type = \"t2.micro\"
-image_id = \"ami-0b9c9d9c6b80f9f9e\"
-tags = {
-  Name = \"terraform-test\"
-}" > ./terraform/dev.tfvars
+# Note: don't execute this script with handy cany extension, it will be executed with terminal
+# devopsPlaybook
+# ansible-playbook playbooks/devopsPlaybook.yml --ask-become-pass --tags
+# devtools
+# ansible-playbook playbooks/devtools.yml --ask-become-pass --tags
+# htopPlaybook
+# ansible-playbook playbooks/htopPlaybook.yml --ask-become-pass --tags
+# interpreters
+# ansible-playbook playbooks/interpreters.yml --ask-become-pass --tags
+# k8_master_node
+# ansible-playbook playbooks/k8-master-node.yml --ask-become-pass --tags
+# k8_nodes
+# ansible-playbook playbooks/k8-nodes.yml --ask-become-pass --tags
+# k8_workers_node
+# ansible-playbook playbooks/k8-workers-node.yml --ask-become-pass --tags
+# nginx
+# ansible-playbook playbooks/nginx.yml --ask-become-pass --tags
 ```
