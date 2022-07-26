@@ -1,0 +1,99 @@
+# Desciption of the Ansible playbook
+---
+- name: install tools
+  hosts: all
+  become: true
+  tasks:
+# update
+  - name: "Update Repository cache"
+    tags:
+      - update
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+      force_apt_get: true
+#dependences
+  - name: install dependences
+    tags:
+      - dependences
+      - docker-debian
+    apt:
+      pkg:
+        - wget
+        - gpg
+        - curl
+        - dbus
+        - git
+        - less
+        - vim
+        - pip
+        - software-properties-common
+        - gnupg
+        - tmux
+        - ca-certificates
+        - gnupg
+        - lsb-release
+
+#set vim as default editor.
+  - name: set vim as default editor
+    shell: "update-alternatives --set editor /usr/bin/vim.basic"
+#install VS code
+  - name: downland vs code
+    shell: |
+      wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+      install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+      sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+      rm -f packages.microsoft.gpg
+      apt update && apt install code -y
+#install spotify
+  - name: install spotify
+    shell: |
+     apt-get upgrade -y
+     curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | apt-key add - keyserver=hkp://keyserver.ubuntu.com:80 id=931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 state=present
+     echo "deb http://repository.spotify.com stable non-free" | tee /etc/apt/sources.list.d/spotify.list
+     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5E3C45D7B312C643
+     apt-get update &&  apt-get install spotify-client -y
+
+#chrome
+  - name: "install chrome"
+    apt:
+      deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+ 
+#postman
+  - name: "downland postman"
+    get_url: 
+      url: https://dl.pstmn.io/download/latest/linux64
+      dest: /tmp/linux64
+
+  - name: "extract postman"
+    shell: |
+      tar -xvf /tmp/linux64 -C /usr/bin
+
+  - name: "alias postman"
+    shell: |
+      echo 'export PATH="$PATH:/usr/bin/Postman"' >> ~/.bashrc
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+
+  - name: "create desktop access icon"
+    ansible.builtin.copy:
+      src: /root/ansible/files/desktop_access/Postman.desktop
+      dest: /usr/share/applications/
+      owner: "{{ hostvars[inventory_hostname].ansible_user }}"
+      group: "{{ hostvars[inventory_hostname].ansible_user }}"
+      mode: 0644
+ 
+  - name: Remove the installer
+    file: 
+      path: /tmp/linux64
+      state: absent
+
+  - name: "install node js"
+    shell: |
+      curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+      apt-get install -y nodejs
+ 
+  - name: "run mysql faster"
+    shell: |
+      sed -i 's/remount-ro.*/remount-ro,barrier=0 0 1/g' /etc/fstab
+      systemctl reboot

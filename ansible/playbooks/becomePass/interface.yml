@@ -1,0 +1,45 @@
+# Desciption of the Ansible playbook
+---
+- name: install tools
+  hosts: *
+  become: true
+# true to become root
+
+  tasks:
+  #gnome extentions
+  - name: install
+    tags:
+      - gnome-extensions
+    shell: |
+        wget -O gnome-shell-extension-installer "https://github.com/brunelli/gnome-shell-extension-installer/raw/master/gnome-shell-extension-installer"
+        chmod +x gnome-shell-extension-installer
+        mv gnome-shell-extension-installer /usr/bin/
+#install gnome extentios
+  - name: "gnome extentions"
+    tags:
+      - gnome-extensions
+    shell: | 
+        gnome-shell-extension-installer 307 # Install "Dash to Dock"
+        gnome-shell-extension-installer 3088 # Install "Extension list"
+    become: no
+    become_user: "{{ hostvars[inventory_hostname].ansible_user }}"
+#fonts
+  - name: "download fonts"
+    tags:
+      - fonts
+    get_url:
+      url: https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip
+      dest: /tmp/cascadia.zip
+  - name: "install fonts"
+    tags:
+      - frontend
+      - backend
+      - fonts
+    shell: |
+      mkdir /tmp/fonts
+      mv /tmp/cascadia.zip /tmp/fonts 
+      cd /tmp/fonts
+      unzip -o cascadia.zip
+      cp ttf/Cascadia* /root/{{ hostvars[inventory_hostname].ansible_user }}/.local/share/fonts
+      fc-cache -f -v
+      rm -rf /tmp/fonts

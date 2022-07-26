@@ -1,0 +1,89 @@
+# Desciption of the Ansible playbook
+---
+- name: install tools
+  hosts: all
+  become: false
+# true to become root
+
+  tasks:
+#  config tmux
+  - name: "Config tmux"
+    tags:
+      - tmux
+    copy: 
+      src: '{{item}}'
+      dest: '/home/{{hostvars[inventory_hostname].ansible_user}}/'
+      mode: '0644'
+    loop:
+      - /root/ansible/files/.tmux.conf
+      - /root/ansible/files/.tmux.git.conf
+#reload tmux
+  - name: reload tmux
+    tags:
+      - tmux
+    shell: "tmux source-file ~/.tmux.conf"
+# config git
+  - name: configure git
+    tags: 
+      - git
+    shell: |
+      git config --global user.email "{{ hostvars[inventory_hostname].git_email }}"
+      git config --global user.name "{{ hostvars[inventory_hostname].git_name }}"
+# config ssh
+  - name: "copy ssh config"
+    tags:
+      - ssh
+    ansible.builtin.copy:
+      src: /root/ansible/files/ssh.config
+      dest: ~/.ssh/config
+      mode: 0664 # 0644
+# generete ssh-keys
+  - name: "generate ssh key"
+    tags:
+      - ssh-keys
+    args:
+      executable: /bin/bash
+    shell: |
+        sed -i "s/id_rsa/id_$USER/g" /home/$USER/.ssh/config
+        ssh-keygen -b 3072 -t rsa -f /home/$USER/.ssh/id_$USER -q -N "$SSH_KEY_PASSPHRASE" -C "{{ hostvars[inventory_hostname].git_email }}"<<<y
+
+#set .bashrc
+  - name: aliases
+    tags:
+      - frontend
+      - backend
+      - alias
+    copy:
+      src: '/root/ansible/files/.bashrc'
+      dest: '/home/{{ hostvars[inventory_hostname].ansible_user }}/.bashrc'
+      mode: 0644
+#set keyboard shotcuts
+#note: find schemas in /usr/share/glib-2.0/schemas or:
+#gsettings list-recursively | egrep "Alt|Shift|Super|Space|Win|Meta|Primary|Control|Ctrl|Tab" | grep org.gnome | awk '{print $1}' | sort -u
+  - name: system shortcuts
+    tags:
+      - shortcuts
+    shell: |
+      #set open file explorer with gsettings
+      gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>e']"
+      #set hide all normal windows with gsettings
+      GSETTINGS_SCHEMA=org.gnome.desktop.wm.keybindings
+      gsettings set $GSETTINGS_SCHEMA show-desktop "['<Super>d']"
+      #set switch aplications with gsettings
+      gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Alt>Tab']"
+      #set switch group with gsettings
+      set org.gnome.desktop.wm.keybindings switch-group "['<Super>Tab']"
+  - name: custom shortcuts
+    tags: 
+      - shortcuts
+    shell: |
+      BEGINNING="gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+
+      KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+
+      gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+      "['$KEY_PATH/custom0/']"
+  
+      $BEGINNING/custom0/ name "Launch tmux with gnome-terminal"
+      $BEGINNING/custom0/ command 'gnome-terminal -e "tmux -L system"'
+      $BEGINNING/custom0/ binding '<Super>grave'

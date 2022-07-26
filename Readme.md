@@ -1,6 +1,5 @@
 # TERRAFORM
 
-
 ### Config .env file:
 
 ```bash
@@ -77,21 +76,26 @@ docker-compose run --rm ansible  ansible all -m ping
 ## Commands available with server password
 
 ```bash
-# Note: don't execute this script with handy cany extension, it will be executed with terminal
+# Note: don't execute this script with handy cany extension, it will be executed with terminal.
+#use --tags=<tag> to run specific playbook
+#interface 
+# docker-compose run --rm ansible ansible-playbook playbooks/interface.yml --ask-become-pass
+
+
 # devopsPlaybook
-# ansible-playbook playbooks/devopsPlaybook.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/devopsPlaybook.yml --ask-become-pass --tags
 # devtools
-# ansible-playbook playbooks/devtools.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/devtools.yml --ask-become-pass --tags
 # htopPlaybook
-# ansible-playbook playbooks/htopPlaybook.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/htopPlaybook.yml --ask-become-pass --tags
 # interpreters
-# ansible-playbook playbooks/interpreters.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/interpreters.yml --ask-become-pass --tags
 # k8_master_node
-# ansible-playbook playbooks/k8-master-node.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/k8-master-node.yml --ask-become-pass --tags
 # k8_nodes
-# ansible-playbook playbooks/k8-nodes.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/k8-nodes.yml --ask-become-pass --tags
 # k8_workers_node
-# ansible-playbook playbooks/k8-workers-node.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/k8-workers-node.yml --ask-become-pass --tags
 # nginx
-# ansible-playbook playbooks/nginx.yml --ask-become-pass --tags
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/nginx.yml --ask-become-pass --tags
 ```
