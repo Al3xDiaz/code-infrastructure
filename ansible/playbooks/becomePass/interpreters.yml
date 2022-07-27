@@ -3,7 +3,6 @@
 - name: install tools interpreters
   hosts: localhost
   become: true # true to become root
-  gather_facts: no
 
   tasks:
   # update

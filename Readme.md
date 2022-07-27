@@ -3,7 +3,7 @@
 ### Config .env file:
 
 ```bash
-cat .env || echo AWS_ACCESS_KEY_ID=""\nAWS_SECRET_ACCESS_KEY="" > .env
+sed -i 's/^\(AWS_ACCESS_KEY_ID\)=\(.*\)/\1="\\nAWS_SECRET_ACCESS_KEY"#\2/g' .env || echo AWS_ACCESS_KEY_ID="\"\\nAWS_SECRET_ACCESS_KEY\"" > .env
 ```
 
 ### Create terraform.tfvars file:
@@ -20,13 +20,13 @@ tags = {
 ### Commands Terraform:
 
 ```bash
-terraform init # Initialize the Terraform configuration.
-terraform plan # Generate a plan for the resources that Terraform would create.
-terraform plan -var-file=variables.tfvars # Generate a plan for the resources that Terraform would create.
-terraform apply # Apply the plan to the infrastructure.
-terraform destroy # Destroy the infrastructure.
-terraform output # Display the output values of the plan.
-terraform validate # Validate the configuration.
+docker-compose run --rm terraform init # Initialize the Terraform configuration.
+# docker-compose run --rm terraform plan # Generate a plan for the resources that Terraform would create.
+# docker-compose run --rm terraform plan -var-file=dev.tfvars # Generate a plan for the resources that Terraform would create.
+# docker-compose run --rm terraform apply # Apply the plan to the infrastructure.
+# docker-compose run --rm terraform destroy # Destroy the infrastructure.
+# docker-compose run --rm terraform output # Display the output values of the plan.
+# docker-compose run --rm terraform validate # Validate the configuration.
 ```
 
 # ANSIBLE
@@ -71,15 +71,17 @@ docker-compose build
 docker-compose run --rm ansible ansible all --list-hosts
 #Ping all hosts
 docker-compose run --rm ansible  ansible all -m ping
+#Config System
+docker-compose run --rm ansible  ansible-playbook  playbooks/withoutPass/configSystem.yml --check
 ```
 
 ## Commands available with server password
 
 ```bash
-# Note: don't execute this script with handy cany extension, it will be executed with terminal.
+# Note: don't execute this script with handy cany extension, it will be executed with terminal. because it will need to enter the password
 #use --tags=<tag> to run specific playbook
 #interface 
-# docker-compose run --rm ansible ansible-playbook playbooks/interface.yml --ask-become-pass
+# docker-compose run --rm ansible ansible-playbook playbooks/becomePass/interface.yml --ask-become-pass
 
 
 # devopsPlaybook

@@ -30,9 +30,6 @@
         - software-properties-common
         - gnupg
         - tmux
-        - ca-certificates
-        - gnupg
-        - lsb-release
 
 #set vim as default editor.
   - name: set vim as default editor
