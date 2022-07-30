@@ -8,4 +8,4 @@ ansible/hosts.csv
 #terraform
 .terraform/
 .terraform.lock.hcl
-terraform/dev.tfvars
+terraform/prod.tfvars
