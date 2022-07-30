@@ -1,13 +1,3 @@
-#Declare resources
-
-# terraform {
-#     backend "s3"{
-#         bucket = "terraform-state-123456789"
-#         key = "dev"
-#         region = "us-west-1"
-#     }
-# }
-
 provider "aws"{
     region = "us-east-1"
 }
@@ -35,9 +25,12 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
     }
   }
 }
-resource "aws_instance" "test" {
-    ami = var.image_id
-    instance_type = var.instance_type
-    tags = var.tags
-}
 
+
+output "s3_bucket" {
+   value = {
+        aws_kms = {
+            key =aws_kms_key.mykey.arn
+        }
+   }
+}
