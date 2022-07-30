@@ -1,9 +1,12 @@
 # TERRAFORM
 ### Config .env file:
+
 ```bash
 sed -i 's/^\(\w\+\)=\(.*\)/\1="\2"/g' .env || echo -e "AWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=" > .env
 ```
+
 ### Create terraform.tfvars file:
+
 ```bash
 cat ./terraform/prod.tfvars || echo "# Declare variables
 instance_type = \"t2.micro\"
@@ -12,30 +15,38 @@ tags = {
   Name = \"terraform-test\"
 }" > ./terraform/prod.tfvars
 ```
+
 ### Commands Terraform:
+
 ```bash
 # Initialize the Terraform configuration.
-docker-compose run --rm  --entrypoint terraform terraform init
+docker-compose run --rm  --entrypoint terraform terraform init #-migrate-state
 ```
+
 ```bash
 # Validate the configuration.
 docker-compose run --rm  --entrypoint terraform terraform validate
 ```
+
 ```bash
 # Generate a plan for the resources that Terraform would create.
 docker-compose run --rm  --entrypoint terraform terraform plan
 ```
+
 ```bash
 # Apply the plan to the infrastructure.
 docker-compose run --rm  --entrypoint terraform terraform apply --auto-aprove
 ```
+
 ```bash
 # Destroy the infrastructure.
-docker-compose run --rm  --entrypoint terraform terraform destroy --auto-aprove
+docker-compose run --rm  --entrypoint terraform terraform apply -destroy #--auto-aprove
 ```
+
 # ANSIBLE
 ## Create Hosts.csv
 #### Note: you must replace the variables with the values ​​of your servers
+
 ```bash
 ls ansible/hosts.csv || echo "Server Name,Server Host,Server User,Git Name,Git Email" > ansible/hosts.csv
 # SERVER_HOST= IP public,IP private, domain or sub-domain
@@ -50,16 +61,22 @@ echo "$SERVER_NAME,$SERVER_HOST,$SERVER_USER,$GIT_NAME,$GIT_EMAIL" >> ansible/ho
 #Handy dandy extension will try open file in vs code
 code ansible/hosts.csv
 ```
+
 ## Build image
+
 ```bash
 docker-compose build
 ```
+
 ## Copy identity file
+
 ```bash
 # Note: don't execute this script with handy cany extension, it will be executed with terminal
 #docker-compose run --rm ansible ssh-copy-id  $SERVER_USER@$SERVER_HOST
 ```
+
 ## Commands available without server password
+
 ```bash
 # list all hosts
 docker-compose run --rm ansible ansible all --list-hosts
@@ -68,7 +85,9 @@ docker-compose run --rm ansible  ansible all -m ping
 #Config System
 docker-compose run --rm ansible  ansible-playbook  playbooks/withoutPass/configSystem.yml --check
 ```
+
 ## Commands available with server password
+
 ```bash
 # Note: don't execute this script with handy cany extension, it will be executed with terminal. because it will need to enter the password
 #use --tags=<tag> to run specific playbook

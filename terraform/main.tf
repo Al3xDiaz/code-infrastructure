@@ -1,15 +1,15 @@
 #Declare resources
 
-terraform {
-    backend "s3"{
-        bucket = "terraform-state-123456789"
-        key = "dev"
-        region = "us-west-1"
-    }
-}
+# terraform {
+#     backend "s3"{
+#         bucket = "terraform-state-123456789"
+#         key = "dev"
+#         region = "us-west-1"
+#     }
+# }
 
 provider "aws"{
-    region = "us-west-1"
+    region = "us-east-1"
 }
 resource "aws_s3_bucket" "backend" {
   bucket = var.bucket_name
