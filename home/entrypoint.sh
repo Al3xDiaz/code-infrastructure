@@ -1,2 +1,3 @@
-source .profile
+#! /bin/sh
+source ~/.profile
 exec "$@"

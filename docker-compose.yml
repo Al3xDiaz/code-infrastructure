@@ -16,10 +16,11 @@ services:
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
         user: root
         volumes:
-            - ./home/.ssh/:/root/.ssh/
+            - ./home/:/root/
             - ./terraform:/root/terraform
         working_dir: /root/terraform/
-        entrypoint: ["/bin/sh"]
+        entrypoint: ["/root/entrypoint.sh"]
+        command: ["terraform", "init"]
     packer:
         image: hashicorp/packer
         environment:
@@ -27,9 +28,10 @@ services:
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
         user: root
         volumes:
-            - ./home/.ssh/:/root/.ssh/
+            - ./home/:/root/
             - ./packer:/root/packer
         working_dir: /root/packer/
-        entrypoint: ["/bin/sh"]
+        entrypoint: ["/root/entrypoint.sh"]
+        command: ["packer","validate", "aws-ami.json"]
 volumes:
     inventory:

@@ -26,11 +26,17 @@ tcommit() {
     sh ./test.sh && gcommit "$1"
 }
 tpush(){
-    tcommit "$1" && git fetch && git push
+    tcommit "$1" && git fetch && git push --all
 }
 gstash(){
     git add .
     git stash $@
+}
+gtag(){
+    [[ "$@" == "" ]] && git tag || gcommit "$2" && git tag -a $1 -m "$2"
+}
+gtagd(){
+    git tag -d $1
 }
 #DOCKER
 alias dimages="docker images"

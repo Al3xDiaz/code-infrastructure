@@ -9,3 +9,13 @@ ansible/hosts.csv
 .terraform/
 .terraform.lock.hcl
 terraform/prod.tfvars
+
+home/.ash_history
+home/.bash_history
+home/terraform
+home/packer
+home/.config
+home/.cache
+home/.terraform.d
+
+
