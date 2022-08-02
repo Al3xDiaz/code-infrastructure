@@ -33,10 +33,7 @@ gstash(){
     git stash $@
 }
 gtag(){
-    [[ "$@" == "" ]] && git tag || gcommit "$2" && git tag -a $1 -m "$2"
-}
-gtagd(){
-    git tag -d $1
+    [[ "$@" == "" ]] && git tag || git tag -a $1 -m "$2" && git push origin --tags
 }
 #DOCKER
 alias dimages="docker images"
