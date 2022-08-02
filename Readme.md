@@ -9,11 +9,12 @@ To use the scripts, you need to have the following installed:
 
 #### Initialize project
 #### Config .env file:
+
 ```bash
 sed -i 's/^\(\w\+\)=\(.*\)/\1="\2"/g' .env || echo -e "AWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=" > .env
 ```
+
 before you start, you need to executes the following commands:
-- [terraform init](#terraform-init)
 - [ansible create hosts.csv](#create-hostscsv)
 - [ansible copy identitifile](#copy-identity-file)
 
