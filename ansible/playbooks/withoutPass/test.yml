@@ -1,0 +1,9 @@
+# test include others playbook
+- debug:
+    msg: "user is {{ hostvars[inventory_hostname].ansible_user }}"
+  tags: 
+   - debug
+- name: "echo test"
+  shell: "echo test"
+  tags:
+    - echo

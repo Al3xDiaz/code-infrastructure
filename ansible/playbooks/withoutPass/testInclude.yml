@@ -1,0 +1,18 @@
+# Desciption of the Ansible playbook
+---
+- name: testing include
+  hosts: all
+  gather_facts: false
+
+  tasks:
+  - debug:
+      msg: Task 1
+    tags: debug
+  - name: include all others tasks
+    include_tasks:
+      file: test.yml
+      apply:
+        tags:
+          - debug
+    tags:
+      - echo

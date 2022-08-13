@@ -2,6 +2,8 @@
 
 ## Overview
 This is a collection of scripts and tools to help with the development of the deployment of the code infrastructure.
+
+note: It is recommended to install "Handy Dandy Notebook" extension for VS Code for run this document commands.
 ### Usage
 To use the scripts, you need to have the following installed:
 - [Docker](https://docs.docker.com/install/)
@@ -113,6 +115,12 @@ docker-compose run --rm ansible ansible all --list-hosts
 docker-compose run --rm ansible  ansible all -m ping
 #Config System
 docker-compose run --rm ansible  ansible-playbook  playbooks/withoutPass/configSystem.yml --check
+```
+
+#### print all tags in playbook 
+
+```bash
+docker-compose run --rm ansible  ansible-playbook  playbooks/withoutPass/configSystem.yml --list-tags
 ```
 
 #### Commands available with server password

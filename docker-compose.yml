@@ -9,6 +9,7 @@ services:
             - ./home/.ssh/:/root/.ssh/
             - ./ansible/:/root/ansible/
             - inventory:/root/ansible/inventory
+            - ansible_home:/root/
     terraform:
         image: hashicorp/terraform
         environment:
@@ -35,3 +36,4 @@ services:
         command: ["packer","validate", "aws-ami.json"]
 volumes:
     inventory:
+    ansible_home:
