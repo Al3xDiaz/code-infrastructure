@@ -1,3 +1,4 @@
+source ~/.profile
 if [ ! -f /root/.ssh/ansible ]; then
     ssh-keygen -b 3072 -t rsa -f /root/.ssh/ansible -q -N '' -C ansible
 fi
