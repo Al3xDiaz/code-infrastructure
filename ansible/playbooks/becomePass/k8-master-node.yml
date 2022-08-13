@@ -14,8 +14,15 @@
         kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
     - name: Cluster join command
       shell: |
-        kubeadm token create --print-join-command > command.sh
-
+        kubeadm token create --print-join-command > /tmp/command.sh
+    - name: Copy join command from master to localhost
+      ansible.copy:
+        src: /tmp/command.sh
+        dest: /root/ansible/outputs/command.sh
+        remote_src: True
+        owner: root
+        group: root
+        mode: 0755
     - name: Update
       tags:
         - copy-file

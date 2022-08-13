@@ -4,6 +4,7 @@ inventory
 vars/
 .ssh/
 ansible/hosts.csv
+ansible/outputs/
 
 #terraform
 .terraform/
