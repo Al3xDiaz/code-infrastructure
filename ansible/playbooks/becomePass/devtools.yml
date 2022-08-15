@@ -22,7 +22,6 @@
         - gpg
         - curl
         - dbus
-        - git
         - less
         - vim
         - pip

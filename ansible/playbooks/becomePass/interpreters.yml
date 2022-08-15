@@ -27,7 +27,6 @@
       - python
     apt:
       pkg:
-        - git
         - curl
         - wget
   

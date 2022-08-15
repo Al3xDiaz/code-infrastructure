@@ -1,3 +1,10 @@
 - name: Install git
   apt:
     name: git
+- name: configure git
+  tags: 
+    - git
+  shell: |
+    git config --global user.email "{{ hostvars[inventory_hostname].git_email }}"
+    git config --global user.name "{{ hostvars[inventory_hostname].git_name }}"
+    git config --global pull.ff only
