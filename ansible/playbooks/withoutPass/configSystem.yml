@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools
-  hosts: all
+  host: all
   become: false
 # true to become root
 
@@ -29,6 +29,7 @@
     shell: |
       git config --global user.email "{{ hostvars[inventory_hostname].git_email }}"
       git config --global user.name "{{ hostvars[inventory_hostname].git_name }}"
+      git config --global pull.ff only
 # config ssh
   - name: "copy ssh config"
     tags:

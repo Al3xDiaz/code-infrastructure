@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools
-  hosts: all
+  host: all
   become: true
   tasks:
 # update
@@ -15,8 +15,7 @@
 #dependences
   - name: install dependences
     tags:
-      - dependences
-      - docker-debian
+      - allways
     apt:
       pkg:
         - wget

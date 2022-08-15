@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools
-  hosts: allan
+  host: all
   become: true # true to become root
 
   tasks:
@@ -21,8 +21,8 @@
       cache_valid_time: 3600
       force_apt_get: true
   - name: Install git
-    apt:
-      name: git
+    include_tasks: "{{ playbook_dir }}/tasks/git.yml"
+
 # install Docker
 #step 1
   - name: docker dependencies

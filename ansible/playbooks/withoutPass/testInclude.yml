@@ -10,7 +10,7 @@
     tags: debug
   - name: include all others tasks
     include_tasks:
-      file: test.yml
+      file: "tasks/test.yml"
       apply:
         tags:
           - debug
