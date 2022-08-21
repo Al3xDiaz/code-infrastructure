@@ -10,6 +10,8 @@ services:
             - ./ansible/:/root/ansible/
             - inventory:/root/ansible/inventory
             - ansible_home:/root/
+        command: ./ansible-test.sh
+        tty: true
     terraform:
         image: hashicorp/terraform
         environment:
@@ -22,6 +24,7 @@ services:
         working_dir: /root/terraform/
         entrypoint: ["/root/entrypoint.sh"]
         command: ["terraform", "init"]
+        tty: true
     packer:
         image: hashicorp/packer
         environment:
@@ -34,6 +37,7 @@ services:
         working_dir: /root/packer/
         entrypoint: ["/root/entrypoint.sh"]
         command: ["packer","validate", "aws-ami.json"]
+        tty: true
 volumes:
     inventory:
     ansible_home:

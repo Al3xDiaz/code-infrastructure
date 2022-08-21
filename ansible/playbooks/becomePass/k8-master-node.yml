@@ -16,7 +16,7 @@
       shell: |
         kubeadm token create --print-join-command > /tmp/command.sh
     - name: Copy join command from master to localhost
-      ansible.copy:
+      ansible.builtin.copy:
         src: /tmp/command.sh
         dest: /root/ansible/outputs/command.sh
         remote_src: True

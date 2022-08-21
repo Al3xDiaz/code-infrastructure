@@ -1,7 +1,7 @@
 # Desciption of the Ansible playbook
 ---
 - name: install tools interpreters
-  host: all
+  hosts: all
   become: true # true to become root
 
   tasks:
