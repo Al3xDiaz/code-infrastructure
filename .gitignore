@@ -3,3 +3,6 @@ terraform/backend.tf
 .terraform.lock.hcl
 .terraform/
 .terraform.d/
+kms_key_output.txt
+terraform.tfstate
+terraform.tfstate.backup
