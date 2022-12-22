@@ -22,3 +22,49 @@ echo "terraform {
     }
 }" > terraform/backend.tf
 ```
+
+# TERRAFORM
+
+terraform init
+```
+
+docker-compose run --rm  --entrypoint terraform terraform init #-migrate-state
+
+```
+
+```
+
+#validate
+docker-compose run --rm  --entrypoint terraform terraform validate
+
+```
+
+```
+
+#plan
+docker-compose run --rm  --entrypoint terraform terraform plan
+
+```
+
+```
+
+# apply
+docker-compose run --rm  --entrypoint terraform terraform apply -auto-approve
+
+```
+
+```
+
+#Output
+docker-compose run --rm --entrypoint terraform terraform output
+
+```
+
+```
+
+# Destroy the infrastructure.
+#docker-compose run --rm  --entrypoint terraform terraform apply -destroy -auto-approve
+
+```
+
+```

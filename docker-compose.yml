@@ -13,3 +13,4 @@ services:
     entrypoint: ["/root/entrypoint.sh"]
     command: ["terraform", "init"]
     tty: true
+    

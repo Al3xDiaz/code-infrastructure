@@ -1,2 +1,5 @@
 .env
 terraform/backend.tf
+.terraform.lock.hcl
+.terraform/
+.terraform.d/
