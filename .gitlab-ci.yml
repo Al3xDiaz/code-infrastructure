@@ -27,8 +27,8 @@ init:
   script:
     - echo "example_remote_state_address=\"$example_remote_state_address\"" >> terraform/gitlab.auto.tfvars
     - echo "example_username=\"$example_username\"" >> terraform/gitlab.auto.tfvars
-    - echo "example_access_token=\"$example_access_token\"" >> terraform/gitlab.auto.tfvars
-    # - docker-compose run --rm --entrypoint /root/terraform/terraform-init.sh terraform
+    - echo "example_access_token=\"$EXAMPLE_ACCESS_TOKEN\"" >> terraform/gitlab.auto.tfvars
+    - docker-compose run --rm --entrypoint /root/terraform/terraform-init.sh terraform
 
 validate:
   stage: validate
@@ -39,8 +39,7 @@ validate:
      - home/
 
   script:
-    - echo "validate..."
-    # - docker-compose run --rm  --entrypoint terraform terraform validate
+    - docker-compose run --rm  --entrypoint terraform terraform validate
 
 plan:
   stage: plan
@@ -51,7 +50,6 @@ plan:
      - home/
 
   script:
-    - cat terraform/gitlab.auto.tfvars
     - docker-compose run --rm  --entrypoint terraform terraform plan
   only:
     - main
