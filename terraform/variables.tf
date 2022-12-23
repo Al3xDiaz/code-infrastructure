@@ -12,3 +12,9 @@ variable "example_access_token" {
   type = string
   description = "GitLab access token to query remote state"
 }
+
+variable region {
+  type        = string
+  default     = "us-east-1"
+  description = "description"
+}
