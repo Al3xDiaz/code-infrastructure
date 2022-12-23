@@ -1,0 +1,40 @@
+image: docker:20.10.16
+services:
+  - docker:20.10.16-dind
+
+stages:
+  - init
+  - validate
+  - plan
+  - apply
+
+variables:
+  gitlab_auto_tfvars: $gitlab_auto_tfvars
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+
+init:
+  stage: init
+  script:
+    - echo -e "$gitlab_auto_tfvars" > terraform/gitlab.auto.tfvars
+    - docker-compose run --rm  --entrypoint terraform terraform init -migrate-state -force-copy
+
+validate:
+  stage: validate
+  script:
+    - docker-compose run --rm  --entrypoint terraform terraform validate
+
+plan:
+  stage: plan
+  script:
+    - docker-compose run --rm  --entrypoint terraform terraform plan
+  only:
+    - main
+
+apply:
+  stage: apply
+  script:
+    - docker-compose run --rm  --entrypoint terraform terraform apply -auto-approve
+  only:
+    - main
+  environment: production
