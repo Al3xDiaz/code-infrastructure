@@ -5,3 +5,5 @@
 kms_key_output.txt
 terraform.tfstate
 terraform.tfstate.backup
+terraform/gitlab.auto.tfvars
+home/.ash_history
