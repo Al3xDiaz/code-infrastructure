@@ -28,7 +28,7 @@ echo "terraform {
 terraform init
 
 ```bash
-docker-compose run --rm  --entrypoint terraform terraform init -migrate-state -force-copy
+docker-compose run --rm  --entrypoint terraform terraform init
 ```
 
 ```bash
