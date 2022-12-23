@@ -17,8 +17,15 @@ init:
   stage: init
   script:
     - echo "$GITLAB_AUTO_TFVARS" > terraform/gitlab.auto.tfvars
-    - ls -la terraform/
-    - docker-compose run --rm  --entrypoint terraform terraform init -migrate-state -force-copy
+    - docker-compose run --rm  --entrypoint terraform terraform init \
+      -backend-config=address=${TF_ADDRESS} \
+      -backend-config=lock_address=${TF_ADDRESS}/lock \
+      -backend-config=unlock_address=${TF_ADDRESS}/lock \
+      -backend-config=username=${TF_USERNAME} \
+      -backend-config=password=${TF_PASSWORD} \
+      -backend-config=lock_method=POST \
+      -backend-config=unlock_method=DELETE \
+      -backend-config=retry_wait_min=5
 
 validate:
   stage: validate
