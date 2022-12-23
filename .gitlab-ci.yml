@@ -17,6 +17,7 @@ init:
   stage: init
   script:
     - echo "$GITLAB_AUTO_TFVARS" > terraform/gitlab.auto.tfvars
+    - ls -la terraform/
     - docker-compose run --rm  --entrypoint terraform terraform init -migrate-state -force-copy
 
 validate:
