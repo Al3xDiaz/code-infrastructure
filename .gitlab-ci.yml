@@ -25,7 +25,9 @@ init:
      - home/
 
   script:
-    - echo "$GITLAB_AUTO_TFVARS" > terraform/gitlab.auto.tfvars
+    - echo "example_remote_state_address=\"$example_remote_state_address\"" >> terraform/gitlab.auto.tfvars
+    - echo "example_username=\"$example_username\"" >> terraform/gitlab.auto.tfvars
+    - echo "example_access_token=\"$example_access_token\"" >> terraform/gitlab.auto.tfvars
     - docker-compose run --rm --entrypoint /root/terraform/terraform-init.sh terraform
 
 validate:
