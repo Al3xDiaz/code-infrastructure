@@ -9,9 +9,12 @@ stages:
   - apply
 
 variables:
-  GITLAB_AUTO_TFVARS: $GITLAB_AUTO_TFVARS
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+
+  example_remote_state_address: $EXAMPLE_REMOTE_STATE_ADDRESS
+  example_username: $EXAMPLE_USERNAME
+  example_access_token: $EXAMPLE_ACCESS_TOKEN
 
 init:
   stage: init
@@ -34,7 +37,6 @@ validate:
      - home/
 
   script:
-    - ls -la terraform/
     - docker-compose run --rm  --entrypoint terraform terraform validate
 
 plan:
