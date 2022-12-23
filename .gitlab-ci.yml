@@ -22,6 +22,7 @@ init:
 validate:
   stage: validate
   script:
+    - ls -la terraform/
     - docker-compose run --rm  --entrypoint terraform terraform validate
 
 plan:
