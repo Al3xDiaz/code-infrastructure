@@ -9,14 +9,23 @@ stages:
   - apply
 
 variables:
-  gitlab_auto_tfvars: $gitlab_auto_tfvars
+  GITLAB_AUTO_TFVARS: $GITLAB_AUTO_TFVARS
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 
 init:
   stage: init
   script:
-    - echo -e "$gitlab_auto_tfvars" > terraform/gitlab.auto.tfvars
+    - terraform init \
+      -backend-config=address=${TF_ADDRESS} \
+      -backend-config=lock_address=${TF_ADDRESS}/lock \
+      -backend-config=unlock_address=${TF_ADDRESS}/lock \
+      -backend-config=username=${TF_USERNAME} \
+      -backend-config=password=${TF_PASSWORD} \
+      -backend-config=lock_method=POST \
+      -backend-config=unlock_method=DELETE \
+      -backend-config=retry_wait_min=5
+    - echo "$GITLAB_AUTO_TFVARS" > terraform/gitlab.auto.tfvars
     - docker-compose run --rm  --entrypoint terraform terraform init -migrate-state -force-copy
 
 validate:
