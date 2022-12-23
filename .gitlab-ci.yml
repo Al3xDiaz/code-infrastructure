@@ -15,18 +15,36 @@ variables:
 
 init:
   stage: init
+  cache:
+    key: build-cache
+    paths:
+     - terraform/
+     - home/
+
   script:
     - echo "$GITLAB_AUTO_TFVARS" > terraform/gitlab.auto.tfvars
     - docker-compose run --rm --entrypoint /root/terraform/terraform-init.sh terraform
 
 validate:
   stage: validate
+  cache:
+    key: build-cache
+    paths:
+     - terraform/
+     - home/
+
   script:
     - ls -la terraform/
     - docker-compose run --rm  --entrypoint terraform terraform validate
 
 plan:
   stage: plan
+  cache:
+    key: build-cache
+    paths:
+     - terraform/
+     - home/
+
   script:
     - docker-compose run --rm  --entrypoint terraform terraform plan
   only:
@@ -34,6 +52,12 @@ plan:
 
 apply:
   stage: apply
+  cache:
+    key: build-cache
+    paths:
+     - terraform/
+     - home/
+
   script:
     - docker-compose run --rm  --entrypoint terraform terraform apply -auto-approve
   only:
