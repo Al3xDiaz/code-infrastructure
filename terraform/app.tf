@@ -5,7 +5,3 @@ provider "aws" {
 module rds {
   source = "./modules/rds"
 }
-
-module eks {
-  source = "github.com/hashicorp/learn-terraform-provision-eks-cluster"
-}

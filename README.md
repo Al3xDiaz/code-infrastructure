@@ -40,13 +40,11 @@ docker-compose run --rm  --entrypoint terraform terraform validate
 ```bash
 #plan
 docker-compose run --rm  --entrypoint terraform terraform plan
-
 ```
 
 ```bash
-# apply
-docker-compose run --rm  --entrypoint terraform terraform apply -auto-approve
-
+#apply
+docker-compose run --rm  --entrypoint terraform terraform apply --auto-approve
 ```
 
 ```bash
@@ -56,5 +54,5 @@ docker-compose run --rm --entrypoint terraform terraform output
 
 ```bash
 # Destroy the infrastructure.
-#docker-compose run --rm  --entrypoint terraform terraform apply -destroy -auto-approve
+docker-compose run --rm  --entrypoint terraform terraform apply -destroy -auto-approve
 ```
