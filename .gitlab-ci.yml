@@ -9,6 +9,8 @@ stages:
   - apply
 
 variables:
+  SECURE_FILES_DOWNLOAD_PATH: 'terraform'
+
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 
