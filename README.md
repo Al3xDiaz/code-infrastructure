@@ -28,7 +28,7 @@ echo "terraform {
 terraform init
 
 ```bash
-docker-compose run --rm  --entrypoint terraform terraform init
+docker-compose run --rm  --entrypoint terraform terraform init -upgrade
 ```
 
 ```bash
