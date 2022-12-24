@@ -56,3 +56,9 @@ docker-compose run --rm --entrypoint terraform terraform output
 # Destroy the infrastructure.
 docker-compose run --rm  --entrypoint terraform terraform apply -destroy -auto-approve
 ```
+
+```bash
+#configure kubectl
+aws eks --region $(docker-compose run --rm  --entrypoint terraform terraform output -raw region) update-kubeconfig --name $(docker-compose run --rm  --entrypoint terraform terraform output -raw cluster_name)
+
+```
