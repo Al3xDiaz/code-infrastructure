@@ -44,6 +44,6 @@ docker-compose run --rm  --entrypoint terraform terraform apply -destroy -auto-a
 
 ```bash
 #configure kubectl
-aws eks --region $(docker-compose run --rm  --entrypoint terraform terraform output -raw region) update-kubeconfig --name $(docker-compose run --rm  --entrypoint terraform terraform output -raw cluster_name)
+aws eks --region us-east-2 update-kubeconfig --name $(docker-compose run --rm  --entrypoint terraform terraform output -raw cluster_name)
 
 ```
