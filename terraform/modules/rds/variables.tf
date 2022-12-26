@@ -22,7 +22,7 @@ variable "db_password"{
 }
 variable "db_identifier" {
     description = "database identifier"
-    default = "rds-terraform-mariadb-test"
+    default = "rds-terraform-mariadb"
 }
 variable "db_storage"{
     description = "allocated storage"

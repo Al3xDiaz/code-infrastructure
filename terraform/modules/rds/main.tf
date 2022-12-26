@@ -14,3 +14,7 @@ resource "aws_db_instance" "rds_instance" {
         Name = "ExampleRDSServerInstance"
     }
 }
+
+output "RDS-Instance" {
+  value = aws_db_instance.rds_instance.address
+}
