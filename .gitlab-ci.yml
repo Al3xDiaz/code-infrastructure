@@ -1,5 +1,7 @@
 
-image: hashicorp/terraform
+image: 
+  name: hashicorp/terraform
+  entrypoint: ['']
 services:
   - hashicorp/terraform:light
 
@@ -16,7 +18,7 @@ before_script:
   - cd terraform/
 
 init:
-  stage: init-validate
+  stage: init-validate  
   cache:
     key: build_cache
     paths:
@@ -26,7 +28,6 @@ init:
      - terraform/.terraform.tfstate.backup
      - terraform/gitlab.auto.tfvars
      - home/
-
   script:
     - terraform init
     - terraform validate
