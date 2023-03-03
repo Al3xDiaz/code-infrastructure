@@ -1,4 +1,5 @@
-image: docker:20.10.16
+
+image: hashicorp/terraform
 services:
   - docker:20.10.16-dind
 
@@ -19,7 +20,6 @@ variables:
 
 init:
   stage: init-validate
-  image: hashicorp/terraform
   cache:
     key: build_cache
     paths:
@@ -36,7 +36,6 @@ init:
 
 apply:
   stage: apply
-  image: hashicorp/terraform
   cache:
     key: build_cache
     paths:
@@ -54,7 +53,6 @@ apply:
 
 destroy:
   stage: destroy
-  image: hashicorp/terraform
   cache:
     key: build_cache
     paths:
