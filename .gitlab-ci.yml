@@ -5,6 +5,7 @@ services:
 stages:
   - init-validate
   - apply
+  - destroy
 
 variables:
   SECURE_FILES_DOWNLOAD_PATH: 'terraform'
@@ -18,6 +19,7 @@ variables:
 
 init:
   stage: init-validate
+  image: hashicorp/terraform
   cache:
     key: build_cache
     paths:
@@ -29,14 +31,12 @@ init:
      - home/
 
   script:
-    - echo "example_remote_state_address=\"$example_remote_state_address\"" > terraform/gitlab.auto.tfvars
-    - echo "example_username=\"$example_username\"" >> terraform/gitlab.auto.tfvars
-    - echo "example_access_token=\"$EXAMPLE_ACCESS_TOKEN\"" >> terraform/gitlab.auto.tfvars
-    - docker-compose run --rm --entrypoint /root/terraform/terraform-init.sh terraform
-    - docker-compose run --rm  --entrypoint terraform terraform validate
+    - terraform init
+    - terraform validate
 
 apply:
   stage: apply
+  image: hashicorp/terraform
   cache:
     key: build_cache
     paths:
@@ -46,9 +46,27 @@ apply:
      - terraform/.terraform.tfstate.backup
      - terraform/gitlab.auto.tfvars
      - home/
-
   script:
-    - docker-compose run --rm  --entrypoint terraform terraform apply -auto-approve
+    - terraform apply -auto-approve
+  only:
+    - main
+  environment: production
+
+destroy:
+  stage: destroy
+  image: hashicorp/terraform
+  cache:
+    key: build_cache
+    paths:
+     - terraform/.terraform
+     - terraform/.terraform.lock.hcl
+     - terraform/.terraform.tfstate
+     - terraform/.terraform.tfstate.backup
+     - terraform/gitlab.auto.tfvars
+     - home/
+  when: manual
+  script:
+    - terraform destroy -auto-approve
   only:
     - main
   environment: production

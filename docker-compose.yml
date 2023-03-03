@@ -5,14 +5,11 @@ services:
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-
-      GITLAB_ACCESS_TOKEN: $GITLAB_ACCESS_TOKEN
     user: root
     volumes:
-      - ./home/:/root/
-      - ./terraform:/root/terraform
+      -  ~/.ssh:/root/.ssh
+      - ./terraform:/root/terraform/
     working_dir: /root/terraform/
-    entrypoint: ["/root/entrypoint.sh"]
-    command: ["terraform", "init"]
-    tty: true
+    entrypoint: "/root/terraform/entrypoint.sh"
+    command: ["init"]
     

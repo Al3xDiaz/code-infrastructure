@@ -1,20 +1,110 @@
-variable "example_remote_state_address" {
-  type = string
-  description = "Gitlab remote state file address"
+variable default_tags {
+	type = map(string)
+	default = {
+  "Terraform" = "true"
+	}
 }
 
-variable "example_username" {
-  type = string
-  description = "Gitlab username to query remote state"
+#RDS
+variable "db_engine" {
+  description = "engine type"
+  default = "mysql"  
 }
 
-variable "example_access_token" {
-  type = string
-  description = "GitLab access token to query remote state"
+variable "db_engine_version"{
+  description = "engine version"
+  default = "8.0.28"
 }
 
-variable region {
-  type        = string
-  default     = "us-east-1"
-  description = "description"
+variable "db_name" {
+  description = "database name"
+  default = "example"
+}
+variable "db_username" {
+  description = "database user name"
+  default = "admin"
+}
+variable "db_password"{
+  description = "database password"
+  default = "password"
+}
+variable "db_identifier" {
+  description = "database identifier"
+  default = "rds-terraform-mariadb"
+}
+variable "db_storage"{
+  description = "allocated storage"
+  default = 20
+}
+variable "db_instance_class" {
+  description = "database instance class"
+  default = "db.t2.micro"
+}
+
+#VPC
+variable "instance_ingress_rules" {
+  description = "Ingress rules"
+  type = list(object({
+    from_port = number
+    to_port = number
+    protocol = string
+    cidr_blocks = list(string)
+  }))
+  default = [
+    {
+      from_port = "22"
+      to_port = "22"
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port = "80"
+      to_port = "80"
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port = "443"
+      to_port = "443"
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+}
+#EC2
+variable "db_ingress_rules" {
+  description = "Ingress rules"
+  type = list(object({
+    from_port = number
+    to_port = number
+    protocol = string
+    cidr_blocks = list(string)
+  }))
+  default = [
+		{
+			from_port = "3306"
+			to_port = "3306"
+			protocol = "tcp"
+			cidr_blocks = ["0.0.0.0/0"]
+		}
+  ]
+}
+#EC2
+variable id_public_key_path {
+	description = "Path to the public key to be used for the instance"
+}
+variable id_private_key_path {
+	description = "Path to the private key to be used for the instance"
+}
+variable "instance_type" {
+  description = "Instance type"
+  default = "t2.micro"  
+}
+variable "instance_count" {
+  default = 1
+  description = "Instances number create"
+}
+variable "image_id" {
+  description = "AMI to use"
+  default = "ami-0c1b4dff690b5d229"
 }

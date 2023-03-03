@@ -47,3 +47,20 @@ docker-compose run --rm  --entrypoint terraform terraform apply -destroy -auto-a
 aws eks --region us-east-2 update-kubeconfig --name $(docker-compose run --rm  --entrypoint terraform terraform output -raw cluster_name)
 
 ```
+
+## configure aws 
+## iam user
+* create user with programmatic access
+* create group with policy "AmazonEC2FullAccess" (or more restrictive)
+* add user to group
+
+## aws cost explorer
+### create budget
+#### create cost alarm
+* aws > cost explorer > budget > create budget
+* name: "terraform"
+* budget type:  cost
+* budgeted amount: $1
+
+
+
