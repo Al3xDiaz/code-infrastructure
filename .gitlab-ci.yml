@@ -1,7 +1,7 @@
 
 image: hashicorp/terraform
 services:
-  - docker:20.10.16-dind
+  - terraform
 
 stages:
   - init-validate
@@ -10,13 +10,10 @@ stages:
 
 variables:
   SECURE_FILES_DOWNLOAD_PATH: 'terraform'
-
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-
-  example_remote_state_address: $EXAMPLE_REMOTE_STATE_ADDRESS
-  example_username: $EXAMPLE_USERNAME
-  example_access_token: $EXAMPLE_ACCESS_TOKEN
+before_script:
+  - cd terraform/
 
 init:
   stage: init-validate
