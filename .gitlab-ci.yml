@@ -1,7 +1,7 @@
 
 image: hashicorp/terraform
 services:
-  - terraform
+  - hashicorp/terraform:light
 
 stages:
   - init-validate
