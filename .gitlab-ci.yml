@@ -48,8 +48,7 @@ apply:
      - terraform/gitlab.auto.tfvars
      - home/
   script:
-    # - terraform apply -auto-approve
-    - terraform plan
+    - terraform apply -auto-approve
   only:
     - main
   environment: production
