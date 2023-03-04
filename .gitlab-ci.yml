@@ -18,6 +18,7 @@ variables:
   TF_VAR_id_public_key: id_$USER.pub
 before_script:
   - cd terraform/
+  - mkdir -p ~/.ssh
   - cp $id_private_key ~/.ssh/id_$USER
   - cp $id_public_key ~/.ssh/id_$USER.pub
 init:
