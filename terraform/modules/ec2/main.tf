@@ -17,7 +17,7 @@ data "aws_db_instance" "main" {
 
 resource "aws_key_pair" "deployer" {
 	key_name	= "user-key"
-	public_key = file(var.id_public_key_path)
+	public_key = file("~/${var.id_public_key_path}")
 }
 
 resource "aws_instance" "server" {
@@ -56,7 +56,7 @@ resource "aws_instance" "server" {
 		connection {
 			type = "ssh"
 			user = "admin"
-			private_key = file(split(".pub", var.id_public_key_path)[0])
+			private_key = file("~/${var.id_private_key_path}")
 			host = self.public_ip
 		}
 		inline = [

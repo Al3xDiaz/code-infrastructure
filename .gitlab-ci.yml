@@ -14,9 +14,12 @@ variables:
   SECURE_FILES_DOWNLOAD_PATH: 'terraform'
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  TF_VAR_id_private_key: id_$USER
+  TF_VAR_id_public_key: id_$USER.pub
 before_script:
   - cd terraform/
-
+  - cp $id_private_key ~/.ssh/id_$USER
+  - cp $id_public_key ~/.ssh/id_$USER.pub
 init:
   stage: init-validate  
   cache:
@@ -44,7 +47,8 @@ apply:
      - terraform/gitlab.auto.tfvars
      - home/
   script:
-    - terraform apply -auto-approve
+    # - terraform apply -auto-approve
+    - terraform plan
   only:
     - main
   environment: production
