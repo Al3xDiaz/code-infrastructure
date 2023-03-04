@@ -115,25 +115,35 @@ resource "aws_lb_target_group" "tg" {
 		create_before_destroy = true
 	}
 }
-# resource "aws_lb_listener" "listener" {
-# 	load_balancer_arn = "${aws_lb.lb.arn}"
-# 	port = "443"
-# 	protocol = "HTTPS"
-# 	ssl_policy = "ELBSecurityPolicy-2016-08"
-# 	certificate_arn = "${aws_acm_certificate.cert.arn}"
-# 	default_action {
-# 		target_group_arn = "${aws_lb_target_group.tg.arn}"
-# 		type = "forward"
-# 	}
-# }
-resource "aws_lb_listener" "listener-without-ssl" {
+resource "aws_lb_listener" "listener" {
 	load_balancer_arn = "${aws_lb.lb.arn}"
-	port = "80"
-	protocol = "HTTP"
+	port = "443"
+	protocol = "HTTPS"
+	ssl_policy = "ELBSecurityPolicy-2016-08"
+	certificate_arn = "${aws_acm_certificate.cert.arn}"
 	default_action {
 		target_group_arn = "${aws_lb_target_group.tg.arn}"
 		type = "forward"
 	}
+}
+resource "aws_lb_listener" "listener-without-ssl" {
+	load_balancer_arn = "${aws_lb.lb.arn}"
+	port = "80"
+	protocol = "HTTP"
+
+	default_action {
+		type = "redirect"
+		redirect {
+			port = "443"
+			protocol = "HTTPS"
+			status_code = "HTTP_301"
+		}
+	}
+
+	# default_action {
+	# 	target_group_arn = "${aws_lb_target_group.tg.arn}"
+	# 	type = "forward"
+	# }
 	# destroy before create aws_lb_target_group
 }
 resource "aws_lb_target_group_attachment" "server" {

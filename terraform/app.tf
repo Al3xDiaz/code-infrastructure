@@ -74,4 +74,5 @@ output "resources" {
 			name_servers = module.elb.aws_route53_zone.name_servers
 		}
   }
+	sensitive = true
 }
