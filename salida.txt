@@ -1,0 +1,7 @@
+{
+  "db_endpoint" = "rds-terraform-mariadb.cscjsowrdkyx.us-west-2.rds.amazonaws.com:3306"
+  "db_name" = "example"
+  "db_password" = "password"
+  "db_port" = 3306
+  "db_username" = "admin"
+}

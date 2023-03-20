@@ -34,6 +34,7 @@ module ec2 {
 	db_username = var.db_username
 	db_password = var.db_password
 	depends_on = [module.vpc,module.rds]
+	settings_domains = var.settings_domains
 }
 module rds {
   source = "./modules/rds"
@@ -63,16 +64,19 @@ output "db" {
 }
 output "resources" {
   value = {
-		ec2 = {
-			ec2_public_ip = module.ec2.instance.*.public_ip
-			ec2_private_ip = module.ec2.instance.*.private_ip
-		}
 		elb = {
 			elb_dns_name = module.elb.aws_lb.dns_name
 		}
 		aws_route53_zone_name_servers = {
 			name_servers = module.elb.aws_route53_zone.name_servers
 		}
+    aws_rds_config = {
+      db_endpoint = module.rds.rds_output.endpoint
+      db_name = module.rds.rds_output.name
+      db_port = module.rds.rds_output.port
+      db_username = module.rds.rds_output.username
+      db_password = module.rds.rds_output.password
+    }
   }
 	sensitive = true
 }

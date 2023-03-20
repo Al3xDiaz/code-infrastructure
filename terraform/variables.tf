@@ -108,3 +108,15 @@ variable "image_id" {
   description = "AMI to use"
   default = "ami-0c1b4dff690b5d229"
 }
+variable "settings_domains" {
+	type = list(object({domain_name = string, service_port = number,domain_db_name = string}))
+	description = "domain name and port"
+	default = [
+		{
+			domain_name = "cms.chaoticteam.com"
+			service_port = 8080,
+			domain_db_name = "example"			
+		}
+	]
+}
+

@@ -6,6 +6,8 @@ services:
       USER: ${USER}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+
+      TF_VAR_settings_domains: ${SETTINGS_DOMAINS}
     user: root
     volumes:
       -  ~/.ssh:/root/.ssh
