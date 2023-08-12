@@ -120,3 +120,7 @@ variable "settings_domains" {
 	]
 }
 
+variable cloudflare_api_token {
+	default = ""
+	description = "The Cloudflare API token to use for authentication"
+}

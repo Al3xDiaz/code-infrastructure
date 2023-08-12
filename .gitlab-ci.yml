@@ -1,72 +1,77 @@
-
-image: 
-  name: hashicorp/terraform
-  entrypoint: ['']
-services:
-  - hashicorp/terraform:light
-
-stages:
-  - init-validate
-  - apply
-  - destroy
-
-variables:
-  SECURE_FILES_DOWNLOAD_PATH: 'terraform'
-  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-  TF_VAR_id_private_key_path: ".ssh/id_$USER"
-  TF_VAR_id_public_key_path: ".ssh/id_$USER.pub"
+---
+apply:
+  cache:
+    key: build_cache
+    paths:
+      - terraform/.terraform
+      - terraform/.terraform.lock.hcl
+      - terraform/.terraform.tfstate
+      - terraform/.terraform.tfstate.backup
+      - terraform/gitlab.auto.tfvars
+      - terraform/terraform_output.txt
+      - home/
+  environment: production
+  only:
+    - main
+  script:
+    - terraform apply -auto-approve
+    - terraform output > terraform/terraform_output.txt
+  stage: apply
 before_script:
   - cd terraform/
   - mkdir -p ~/.ssh
   - cp $id_private_key ~/.ssh/id_$USER
   - cp $id_public_key ~/.ssh/id_$USER.pub
-init:
-  stage: init-validate  
+config_infrastructure:
+  environment: production
+  only:
+    - main
+  trigger:
+    branch: config_server
+    project: Al3xDiaz/ansible
+destroy:
   cache:
     key: build_cache
     paths:
-     - terraform/.terraform
-     - terraform/.terraform.lock.hcl
-     - terraform/.terraform.tfstate
-     - terraform/.terraform.tfstate.backup
-     - terraform/gitlab.auto.tfvars
-     - home/
+      - terraform/.terraform
+      - terraform/.terraform.lock.hcl
+      - terraform/.terraform.tfstate
+      - terraform/.terraform.tfstate.backup
+      - terraform/gitlab.auto.tfvars
+      - home/
+  environment: production
+  only:
+    - main
+  script:
+    - terraform destroy -auto-approve
+  stage: destroy
+  when: manual
+image:
+  entrypoint: ['']
+  name: hashicorp/terraform
+init:
+  cache:
+    key: build_cache
+    paths:
+      - terraform/.terraform
+      - terraform/.terraform.lock.hcl
+      - terraform/.terraform.tfstate
+      - terraform/.terraform.tfstate.backup
+      - terraform/gitlab.auto.tfvars
+      - home/
   script:
     - terraform init
     - terraform validate
-
-apply:
-  stage: apply
-  cache:
-    key: build_cache
-    paths:
-     - terraform/.terraform
-     - terraform/.terraform.lock.hcl
-     - terraform/.terraform.tfstate
-     - terraform/.terraform.tfstate.backup
-     - terraform/gitlab.auto.tfvars
-     - home/
-  script:
-    - terraform apply -auto-approve
-  only:
-    - main
-  environment: production
-
-destroy:
-  stage: destroy
-  cache:
-    key: build_cache
-    paths:
-     - terraform/.terraform
-     - terraform/.terraform.lock.hcl
-     - terraform/.terraform.tfstate
-     - terraform/.terraform.tfstate.backup
-     - terraform/gitlab.auto.tfvars
-     - home/
-  when: manual
-  script:
-    - terraform destroy -auto-approve
-  only:
-    - main
-  environment: production
+  stage: init-validate
+services:
+  - hashicorp/terraform:light
+stages:
+  - init-validate
+  - apply
+  - destroy
+variables:
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  SECURE_FILES_DOWNLOAD_PATH: terraform
+  TF_VAR_id_private_key_path: .ssh/id_$USER
+  TF_VAR_id_public_key_path: .ssh/id_$USER.pub

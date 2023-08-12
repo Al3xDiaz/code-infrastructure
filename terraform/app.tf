@@ -52,23 +52,15 @@ module elb {
   source = "./modules/elb"
 	depends_on = [module.vpc, module.ec2, module.rds,]
 }
-output "db" {
-	value ={
-		db_endpoint = module.rds.rds_output.endpoint
-		db_name = module.rds.rds_output.name
-		db_port = module.rds.rds_output.port
-		db_username = module.rds.rds_output.username
-		db_password = module.rds.rds_output.password
-	}
-	sensitive = true
+module cloudflare {
+	source = "./modules/cloudflare"
+	cloudflare_api_token = var.cloudflare_api_token
+  load_balancer_url = module.elb.aws_lb.dns_name
 }
 output "resources" {
   value = {
 		elb = {
 			elb_dns_name = module.elb.aws_lb.dns_name
-		}
-		aws_route53_zone_name_servers = {
-			name_servers = module.elb.aws_route53_zone.name_servers
 		}
     aws_rds_config = {
       db_endpoint = module.rds.rds_output.endpoint

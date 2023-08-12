@@ -7,3 +7,4 @@ terraform.tfstate
 terraform.tfstate.backup
 terraform/gitlab.auto.tfvars
 home/.ash_history
+.auto.tfvars
