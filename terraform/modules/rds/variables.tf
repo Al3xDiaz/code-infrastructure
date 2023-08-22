@@ -24,3 +24,6 @@ variable "db_storage"{
 variable "db_instance_class" {
     description = "database instance class"
 }
+variable "db_subnet_group_name" {
+		description = "database subnet group name"
+}

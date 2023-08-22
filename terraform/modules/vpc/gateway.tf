@@ -8,8 +8,7 @@ resource "aws_route" "internet_access" {
   gateway_id             = aws_internet_gateway.gateway.id
 }
 
-resource "aws_eip" "gateway" {
-  count      = 1
-  vpc        = true
-  depends_on = [aws_internet_gateway.gateway]
-}
+# resource "aws_eip" "gateway" {
+#   count      = 1
+#   depends_on = [aws_internet_gateway.gateway]
+# }

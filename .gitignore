@@ -8,3 +8,11 @@ terraform.tfstate.backup
 terraform/gitlab.auto.tfvars
 home/.ash_history
 .auto.tfvars
+backend.auto.tfvars
+
+# ansible files
+.ansible/
+inventory
+.ash_history
+.ssh/
+ansible/roles/deploy-apps/tasks/template.yml

@@ -38,3 +38,9 @@ resource "aws_db_subnet_group" "main" {
 		VPC = aws_vpc.main.id
 	}
 }
+output "vpc_id" {
+	value = aws_vpc.main.id
+}
+output "aws_db_subnet_group" {
+	value = aws_db_subnet_group.main.name
+}

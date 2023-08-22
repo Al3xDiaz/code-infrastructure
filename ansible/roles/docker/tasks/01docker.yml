@@ -1,0 +1,37 @@
+---
+- apt:
+    cache_valid_time: 3600
+    force_apt_get: true
+    update_cache: true
+  name: update packages using apt
+- apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+      - gnupg
+    state: present
+    update_cache: 'yes'
+  name: docker dependencies
+- apt_key:
+    state: present
+    url: https://download.docker.com/linux/ubuntu/gpg
+  name: Add Docker`s official GPG key
+- apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+  name: Add Docker Repository
+  register: docker
+# Desciption of the Ansible playbook
+- apt:
+    name: docker-ce
+    state: present
+    update_cache: 'yes'
+  name: Update apt and install docker-ce
+- name: Install Docker Module for Python
+  pip:
+    name: docker

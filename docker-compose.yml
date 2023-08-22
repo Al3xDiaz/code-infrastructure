@@ -1,18 +1,25 @@
-version: '3.9'
+---
 services:
+  ansible:
+    command: ["ansible-playbook","-i", "inventory", "main.yml"]
+    image: registry.gitlab.com/chaoticteams/ansible
+    volumes:
+      - ~/.ssh/:/home/user_keys
+      - ./ansible:/root/
+    working_dir: /root/
   terraform:
-    image: hashicorp/terraform
+    command: ["init"]
+    entrypoint: /root/terraform/entrypoint.sh
     environment:
-      USER: ${USER}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-
-      TF_VAR_settings_domains: ${SETTINGS_DOMAINS}
+      USER: ${USER}
+    image: hashicorp/terraform
     user: root
     volumes:
-      -  ~/.ssh:/root/.ssh
+      - ~/.ssh:/root/.ssh
       - ./terraform:/root/terraform/
     working_dir: /root/terraform/
-    entrypoint: "/root/terraform/entrypoint.sh"
-    command: ["init"]
-    
+version: '3.9'
+volumes:
+  ansible_home: null

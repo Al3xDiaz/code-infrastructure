@@ -23,7 +23,3 @@ variable "db_username" {
 variable "db_password"{
 	description = "database password"
 }
-variable "settings_domains" {
-	type = list(object({domain_name = string, service_port = number, domain_db_name=string}))
-	description = "domain name and port"
-}

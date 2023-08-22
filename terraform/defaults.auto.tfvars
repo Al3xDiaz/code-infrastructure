@@ -1,2 +1,2 @@
-id_public_key_path=".ssh/id_al3xdiaz.pub"
-id_private_key_path=".ssh/id_al3xdiaz"
+id_public_key_path=".ssh/ansible.pub"
+id_private_key_path=".ssh/ansible"

@@ -2,7 +2,7 @@ variable cloudflare_api_token {
 	default = ""
 	description = "The Cloudflare API token to use for authentication"
 }
-variable load_balancer_url {
+variable	public_ip {
 	default = ""
-	description = "The URL of the load balancer to update"
+	description = "The IPv4 address of the instance to update"
 }

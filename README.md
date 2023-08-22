@@ -62,5 +62,9 @@ aws eks --region us-east-2 update-kubeconfig --name $(docker-compose run --rm  -
 * budget type:  cost
 * budgeted amount: $1
 
+## Ansible
+### commands
 
-
+```bash
+docker-compose run --rm ansible ansible-playbook main.yml --check
+```

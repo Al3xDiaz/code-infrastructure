@@ -1,0 +1,11 @@
+---
+- name: "Install Docker Compose"
+  pip:
+    name: "docker-compose"
+- ansible.builtin.get_url:
+    dest: "/usr/bin/docker-compose"
+    group: "docker"
+    mode: "u=rwx,g=rx,o=rx"
+    url: "{{file_url}}{{file_path}}"
+  name: "Install docker compose"
+...

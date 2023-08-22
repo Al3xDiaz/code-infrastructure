@@ -1,0 +1,18 @@
+---
+- ansible.builtin.file:
+    path: /home/{{ansible_user}}/projects/email/
+    state: directory
+  name: Creates directory
+- ansible.builtin.template:
+    dest: /home/{{ansible_user}}/projects/email/docker-compose.yml
+    src: docker-compose.poste.yml.j2
+  become: true
+  name: Create docker-compose.yml
+- become: true
+  community.docker.docker_compose:
+    build: 'yes'
+    project_name: email
+    project_src: /home/{{ansible_user}}/projects/email/
+    recreate: always
+    state: present
+  name: run email with docker compose

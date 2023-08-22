@@ -1,3 +1,19 @@
+# terraform state
+variable "address" {
+  type = string
+  description = "Gitlab remote state file address"
+}
+
+variable "username" {
+  type = string
+  description = "Gitlab username to query remote state"
+}
+
+variable "password" {
+  type = string
+  description = "GitLab access token to query remote state"
+}
+
 variable default_tags {
 	type = map(string)
 	default = {
@@ -50,28 +66,8 @@ variable "instance_ingress_rules" {
     protocol = string
     cidr_blocks = list(string)
   }))
-  default = [
-    {
-      from_port = "22"
-      to_port = "22"
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    {
-      from_port = "80"
-      to_port = "80"
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    {
-      from_port = "443"
-      to_port = "443"
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  ]
+  default = []
 }
-#EC2
 variable "db_ingress_rules" {
   description = "Ingress rules"
   type = list(object({
@@ -88,6 +84,29 @@ variable "db_ingress_rules" {
 			cidr_blocks = ["0.0.0.0/0"]
 		}
   ]
+}
+variable "lb_ingress_rules" {
+	description = "Ingress rules"
+	type = list(object({
+		from_port = number
+		to_port = number
+		protocol = string
+		cidr_blocks = list(string)
+	}))
+	default = [
+		{
+			from_port = "80"
+			to_port = "80"
+			protocol = "tcp"
+			cidr_blocks = ["0.0.0.0/0"]
+		},
+		{
+			from_port = "443"
+			to_port = "443"
+			protocol = "tcp"
+			cidr_blocks = ["0.0.0.0/0"]
+		}
+	]
 }
 #EC2
 variable id_public_key_path {
@@ -106,18 +125,7 @@ variable "instance_count" {
 }
 variable "image_id" {
   description = "AMI to use"
-  default = "ami-0c1b4dff690b5d229"
-}
-variable "settings_domains" {
-	type = list(object({domain_name = string, service_port = number,domain_db_name = string}))
-	description = "domain name and port"
-	default = [
-		{
-			domain_name = "cms.chaoticteam.com"
-			service_port = 8080,
-			domain_db_name = "example"			
-		}
-	]
+  default = "ami-053b0d53c279acc90"
 }
 
 variable cloudflare_api_token {

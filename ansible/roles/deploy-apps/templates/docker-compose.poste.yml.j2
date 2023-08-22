@@ -1,0 +1,24 @@
+version: "3.4"
+services:
+  poste:
+    cpus: 1
+    mem_limit: 512m
+    cpu_shares: 512
+    image: analogic/poste.io
+    restart: always
+    network_mode: "host"
+    expose:
+      - 25
+      - 80
+      - 110
+      - 143
+      - 465
+      - 587
+      - 993
+      - 995
+      - 4190
+    volumes:
+      - /data/mnt/mail:/data
+    environment:
+      - HTTPS=ON
+      - DISABLE_CLAMAV=TRUE

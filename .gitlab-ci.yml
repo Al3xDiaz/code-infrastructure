@@ -3,6 +3,7 @@ apply:
   cache:
     key: build_cache
     paths:
+      - cd terraform/
       - terraform/.terraform
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
@@ -14,25 +15,28 @@ apply:
   only:
     - main
   script:
-    - terraform apply -auto-approve
-    - terraform output > terraform/terraform_output.txt
-  stage: apply
+    # - terraform apply -auto-approve
+    - terraform plan 
+    - terraform output -raw servers > terraform/terraform_output.txt
 before_script:
-  - cd terraform/
   - mkdir -p ~/.ssh
-  - cp $id_private_key ~/.ssh/id_$USER
-  - cp $id_public_key ~/.ssh/id_$USER.pub
+  - cp $id_private_key ~/.ssh/ansible
+  - cp $id_public_key ~/.ssh/anisble.pub
 config_infrastructure:
   environment: production
   only:
     - main
-  trigger:
-    branch: config_server
-    project: Al3xDiaz/ansible
+  script:
+    - cp terraform/terraform_output.txt ansible/inventory
+    - cd ansible/
+    - ansible-playbook main.yml
+  variables:
+    ANSIBLE_PIPELINING: 'true'
 destroy:
   cache:
     key: build_cache
     paths:
+      - cd terraform/
       - terraform/.terraform
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
@@ -53,6 +57,7 @@ init:
   cache:
     key: build_cache
     paths:
+      - cd terraform/
       - terraform/.terraform
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
@@ -69,6 +74,7 @@ stages:
   - init-validate
   - apply
   - destroy
+  - config_infrastructure
 variables:
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY

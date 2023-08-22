@@ -1,0 +1,24 @@
+---
+- ansible.builtin.file:
+    path: /home/{{ansible_user}}/projects/wordpress/
+    state: directory
+  name: Creates directory
+- ansible.builtin.template:
+    dest: /home/{{ansible_user}}/projects/wordpress/docker-compose.yml
+    src: docker-compose.wordpress.yml.j2
+  become: true
+  name: Create docker-compose.yml
+  vars:
+    wordpress_db_host: "{{ db_host }}"
+    wordpress_db_name: "{{ db_name }}"
+    wordpress_db_password: "{{ db_password }}"
+    wordpress_db_user: "{{ db_username }}"
+- become: true
+  community.docker.docker_compose:
+    build: 'yes'
+    project_name: wordpress
+    project_src: /home/{{ansible_user}}/projects/wordpress/
+    recreate: always
+    state: present
+  name: run wordpress with docker compose
+  register: output
