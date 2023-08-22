@@ -3,7 +3,6 @@ apply:
   cache:
     key: build_cache
     paths:
-      - cd terraform/
       - terraform/.terraform
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
@@ -15,6 +14,7 @@ apply:
   only:
     - main
   script:
+    - cd terraform/
     - terraform plan
     - terraform output -raw servers > terraform/terraform_output.txt
   stage: apply
@@ -37,7 +37,6 @@ destroy:
   cache:
     key: build_cache
     paths:
-      - cd terraform/
       - terraform/.terraform
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
@@ -48,6 +47,7 @@ destroy:
   only:
     - main
   script:
+    - cd terraform/
     - terraform destroy -auto-approve
   stage: destroy
   when: manual
@@ -58,7 +58,6 @@ init:
   cache:
     key: build_cache
     paths:
-      - cd terraform/
       - terraform/.terraform
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
