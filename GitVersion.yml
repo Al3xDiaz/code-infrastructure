@@ -1,0 +1,19 @@
+---
+branches:
+  develop:
+    regex: ^dev(elop)?(ment)?$
+    tag: beta
+  master:
+    regex: ^ma(ster|in)$
+    tag: alpha
+  pull-request:
+    regex: ^(pull|pull\-requests|pr)[\-/_].*$
+    tag: prerelease
+commit-message-incrementing: Enabled
+ignore:
+  sha: []
+major-version-bump-message: \[(breaking|major)\]\s?.*
+merge-message-formats: {}
+minor-version-bump-message: \[(feat|feature|minor)\]\s?.*
+mode: mainline
+patch-version-bump-message: \[(fix|patch)\]\s?.*
