@@ -9,6 +9,8 @@ apply:
       - terraform/.terraform.tfstate.backup
       - terraform/gitlab.auto.tfvars
       - terraform/terraform_output.txt
+      - .auto.tfvars
+      - backend.auto.tfvars
       - home/
   environment: production
   only:
@@ -42,6 +44,8 @@ destroy:
       - terraform/.terraform.tfstate
       - terraform/.terraform.tfstate.backup
       - terraform/gitlab.auto.tfvars
+      - .auto.tfvars
+      - backend.auto.tfvars
       - home/
   environment: production
   only:
@@ -62,7 +66,9 @@ init:
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
       - terraform/.terraform.tfstate.backup
-      - terraform/gitlab.auto.tfvars
+      - terraform/gitlab.auto.
+      - .auto.tfvars
+      - backend.auto.tfvars
       - home/
   script:
     - cd terraform/
