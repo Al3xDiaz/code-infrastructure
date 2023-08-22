@@ -67,7 +67,10 @@ init:
       - terraform/gitlab.auto.tfvars
       - home/
   script:
-    - terraform init
+    - cd terraform/
+    - cp $tf_vars .auto.tfvars
+    - cp $tf_backend backend.auto.tfvars
+    - terraform init -backend-config=backend.auto.tfvars
     - terraform validate
   stage: init-validate
 services:
