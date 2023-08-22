@@ -15,8 +15,7 @@ apply:
   only:
     - main
   script:
-    # - terraform apply -auto-approve
-    - terraform plan 
+    - terraform plan
     - terraform output -raw servers > terraform/terraform_output.txt
   stage: apply
 before_script:
@@ -31,9 +30,9 @@ config_infrastructure:
     - cp terraform/terraform_output.txt ansible/inventory
     - cd ansible/
     - ansible-playbook main.yml
+  stage: config_infrastructure
   variables:
     ANSIBLE_PIPELINING: 'true'
-  stage: config_infrastructure
 destroy:
   cache:
     key: build_cache
