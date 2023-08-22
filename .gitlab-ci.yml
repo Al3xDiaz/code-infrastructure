@@ -7,10 +7,9 @@ apply:
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
       - terraform/.terraform.tfstate.backup
-      - terraform/gitlab.auto.tfvars
       - terraform/terraform_output.txt
-      - .auto.tfvars
-      - backend.auto.tfvars
+      - terraform/.auto.tfvars
+      - terraform/backend.auto.tfvars
       - home/
   environment: production
   only:
@@ -43,9 +42,8 @@ destroy:
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
       - terraform/.terraform.tfstate.backup
-      - terraform/gitlab.auto.tfvars
-      - .auto.tfvars
-      - backend.auto.tfvars
+      - terraform/.auto.tfvars
+      - terraform/backend.auto.tfvars
       - home/
   environment: production
   only:
@@ -67,8 +65,8 @@ init:
       - terraform/.terraform.tfstate
       - terraform/.terraform.tfstate.backup
       - terraform/gitlab.auto.
-      - .auto.tfvars
-      - backend.auto.tfvars
+      - terraform/.auto.tfvars
+      - terraform/backend.auto.tfvars
       - home/
   script:
     - cd terraform/
@@ -88,5 +86,5 @@ variables:
   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
   SECURE_FILES_DOWNLOAD_PATH: terraform
-  TF_VAR_id_private_key_path: .ssh/id_$USER
-  TF_VAR_id_public_key_path: .ssh/id_$USER.pub
+  TF_VAR_id_private_key_path: .ssh/ansible
+  TF_VAR_id_public_key_path: .ssh/anisble.pub
