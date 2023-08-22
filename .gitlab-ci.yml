@@ -22,7 +22,7 @@ apply:
 before_script:
   - mkdir -p ~/.ssh
   - cp $id_private_key ~/.ssh/ansible
-  - cp $id_public_key ~/.ssh/anisble.pub
+  - cp $id_public_key ~/.ssh/ansible.pub
 config_infrastructure:
   environment: production
   only:
