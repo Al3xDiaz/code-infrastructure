@@ -16,7 +16,7 @@ apply:
     - main
   script:
     - cd terraform/
-    - terraform plan
+    - terraform apply -auto-approve
     - terraform output -raw servers > terraform_output.txt
   stage: apply
 before_script:
@@ -24,6 +24,10 @@ before_script:
   - cp $id_private_key ~/.ssh/ansible
   - cp $id_public_key ~/.ssh/ansible.pub
 config_infrastructure:
+  cache:
+    key: build_cache
+    paths:
+      - terraform/terraform_output.txt
   environment: production
   only:
     - main
