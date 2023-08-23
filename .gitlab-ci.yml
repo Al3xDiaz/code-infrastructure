@@ -29,7 +29,7 @@ config_infrastructure:
     paths:
       - terraform/terraform_output.txt
   environment: production
-  image: gitlab.com/chaoticteams/ansible
+  image: registry.gitlab.com/chaoticteams/ansible
   only:
     - main
   script:
