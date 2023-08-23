@@ -38,8 +38,8 @@ config_infrastructure:
     - ansible-playbook main.yml
   stage: config_infrastructure
   variables:
+    ANSIBLE_INVENTORY: ./inventory
     ANSIBLE_PIPELINING: 'true'
-    ANSIIBLE_INVENTORY: ./inventory
 destroy:
   cache:
     key: build_cache

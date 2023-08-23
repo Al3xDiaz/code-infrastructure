@@ -2,6 +2,8 @@
 services:
   ansible:
     command: ["ansible-playbook","-i", "inventory", "main.yml"]
+    environment:
+      ANSIBLE_INVENTORY: ./inventory
     image: registry.gitlab.com/chaoticteams/ansible
     volumes:
       - ~/.ssh/:/home/user_keys
