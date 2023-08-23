@@ -77,6 +77,6 @@ output "resources" {
 }
 output "servers" {
 	# value = module.ec2.servers
-	value = join("\n",[ for server in module.ec2.servers : "${server} ansible_user=ubuntu ansible_ssh_private_key_file=${var.id_private_key_path} ansible_ssh_common_args='-o StrictHostKeyChecking=no' db_host=${module.rds.rds_output.endpoint} db_port=${module.rds.rds_output.port} db_name=${module.rds.rds_output.db_name} db_username=${module.rds.rds_output.username} db_password=${module.rds.rds_output.password}" ])
+	value = join("\n",[ for server in module.ec2.servers : "${server} ansible_user=ubuntu ansible_ssh_private_key_file=~/${var.id_private_key_path} ansible_ssh_common_args='-o StrictHostKeyChecking=no' db_host=${module.rds.rds_output.endpoint} db_port=${module.rds.rds_output.port} db_name=${module.rds.rds_output.db_name} db_username=${module.rds.rds_output.username} db_password=${module.rds.rds_output.password}" ])
 	sensitive = true
 }

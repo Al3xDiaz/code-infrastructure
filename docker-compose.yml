@@ -8,6 +8,8 @@ services:
     volumes:
       - ~/.ssh/:/home/user_keys
       - ./ansible:/root/
+      - /root/.ssh
+      - /root/.ansible
     working_dir: /root/
   terraform:
     command: ["init"]
