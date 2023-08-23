@@ -17,7 +17,7 @@ apply:
   script:
     - cd terraform/
     - terraform plan
-    - terraform output -raw servers > terraform/terraform_output.txt
+    - terraform output -raw servers > terraform_output.txt
   stage: apply
 before_script:
   - mkdir -p ~/.ssh
