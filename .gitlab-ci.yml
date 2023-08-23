@@ -7,17 +7,16 @@ apply:
       - terraform/.terraform.lock.hcl
       - terraform/.terraform.tfstate
       - terraform/.terraform.tfstate.backup
-      - terraform/terraform_output.txt
       - terraform/.auto.tfvars
       - terraform/backend.auto.tfvars
-      - home/
+      - ansible/inventory
   environment: production
   only:
     - main
   script:
     - cd terraform/
     - terraform apply -auto-approve
-    - terraform output -raw servers > terraform_output.txt
+    - terraform output -raw servers > ../ansible/inventory
   stage: apply
 before_script:
   - mkdir -p ~/.ssh
@@ -27,7 +26,7 @@ config_infrastructure:
   cache:
     key: build_cache
     paths:
-      - terraform/terraform_output.txt
+      - ansible/inventory
   environment: production
   image:
     entrypoint: ['']
@@ -35,12 +34,12 @@ config_infrastructure:
   only:
     - main
   script:
-    - cp terraform/terraform_output.txt ansible/inventory
     - cd ansible/
     - ansible-playbook main.yml
   stage: config_infrastructure
   variables:
     ANSIBLE_PIPELINING: 'true'
+    ANSIIBLE_INVENTORY: ./inventory
 destroy:
   cache:
     key: build_cache
