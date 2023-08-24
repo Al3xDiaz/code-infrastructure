@@ -1,9 +1,6 @@
 version: "3.4"
 services:
   poste:
-    cpus: 1
-    mem_limit: 512m
-    cpu_shares: 512
     image: analogic/poste.io
     restart: always
     network_mode: "host"
@@ -22,3 +19,8 @@ services:
     environment:
       - HTTPS=ON
       - DISABLE_CLAMAV=TRUE
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M

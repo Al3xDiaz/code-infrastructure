@@ -14,3 +14,8 @@ services:
       WORDPRESS_DB_NAME: {{wordpress_db_name}}
     volumes:
       - /data/wordpress:/var/www/html
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
