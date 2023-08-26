@@ -19,10 +19,10 @@ resource "cloudflare_record" "cert" {
 	proxied = false
 }
 
-# Create default A record for wwww and @
-resource "cloudflare_record" "www" {
+# Create default A record default
+resource "cloudflare_record" "default" {
 	zone_id = data.cloudflare_zone.example.id
-	name    = "www"
+	name    = "*"
 	value   = aws_lb.lb.dns_name
 	type    = "CNAME"
 	ttl     = 1
