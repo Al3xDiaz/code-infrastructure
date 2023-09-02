@@ -41,8 +41,8 @@ resource "cloudflare_record" "root" {
 resource "cloudflare_record" "mail" {
 	zone_id = data.cloudflare_zone.example.id
 	name    = "mail"
-	value   = data.aws_instance.server.public_ip
-	type    = "A"
+	value   = aws_lb.lb.dns_name
+	type    = "CNAME"
 	ttl     = 1
 	proxied = false
 }

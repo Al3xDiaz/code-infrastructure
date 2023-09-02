@@ -7,7 +7,7 @@ resource "aws_security_group" "server" {
 		from_port = ingress.value.from_port
 		to_port = ingress.value.to_port
 		protocol = ingress.value.protocol
-		cidr_blocks = ingress.value.cidr_blocks
+		cidr_blocks = ["0.0.0.0/0"]
 	}
 	}
 	egress {
@@ -49,7 +49,7 @@ resource "aws_security_group" "db" {
 			from_port = ingress.value.from_port
 			to_port = ingress.value.to_port
 			protocol = ingress.value.protocol
-			cidr_blocks = ingress.value.cidr_blocks
+			cidr_blocks = ["0.0.0.0/0"]
 		}
 	}
 	egress {
@@ -61,9 +61,9 @@ resource "aws_security_group" "db" {
 	tags = {
 		Name = "db"
 	}
-	lifecycle {
-		ignore_changes = [tags]
-	}
+	# lifecycle {
+	# 	ignore_changes = [tags]
+	# }
 }
 resource "aws_security_group" "lb" {
 	name = "security_group_lb"
@@ -74,7 +74,7 @@ resource "aws_security_group" "lb" {
 			from_port = ingress.value.from_port
 			to_port = ingress.value.to_port
 			protocol = ingress.value.protocol
-			cidr_blocks = ingress.value.cidr_blocks
+			cidr_blocks = ["0.0.0.0/0"]
 		}
 	}
 	egress {
@@ -86,7 +86,7 @@ resource "aws_security_group" "lb" {
 	tags = {
 		Name = "lb"
 	}
-	lifecycle {
-		ignore_changes = [tags]
-	}
+	# lifecycle {
+	# 	ignore_changes = [tags]
+	# }
 }

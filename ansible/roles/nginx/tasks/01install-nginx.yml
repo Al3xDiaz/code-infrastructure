@@ -1,6 +1,0 @@
----
-- apt:
-    name: nginx
-    state: latest
-  name: install nginx
-...

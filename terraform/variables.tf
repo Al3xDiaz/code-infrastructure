@@ -64,7 +64,6 @@ variable "instance_ingress_rules" {
     from_port = number
     to_port = number
     protocol = string
-    cidr_blocks = list(string)
   }))
   default = []
 }
@@ -74,14 +73,12 @@ variable "db_ingress_rules" {
     from_port = number
     to_port = number
     protocol = string
-    cidr_blocks = list(string)
   }))
   default = [
 		{
 			from_port = "3306"
 			to_port = "3306"
 			protocol = "tcp"
-			cidr_blocks = ["0.0.0.0/0"]
 		}
   ]
 }
@@ -91,20 +88,17 @@ variable "lb_ingress_rules" {
 		from_port = number
 		to_port = number
 		protocol = string
-		cidr_blocks = list(string)
 	}))
 	default = [
 		{
 			from_port = "80"
 			to_port = "80"
 			protocol = "tcp"
-			cidr_blocks = ["0.0.0.0/0"]
 		},
 		{
 			from_port = "443"
 			to_port = "443"
 			protocol = "tcp"
-			cidr_blocks = ["0.0.0.0/0"]
 		}
 	]
 }
@@ -131,4 +125,15 @@ variable "image_id" {
 variable cloudflare_api_token {
 	default = ""
 	description = "The Cloudflare API token to use for authentication"
+}
+
+# load balancer
+variable target_groups {
+	default = []
+	description = "The target groups to update"
+	type = list(object({
+		hosts = list(string)
+		port = number
+		name = string
+	}))
 }

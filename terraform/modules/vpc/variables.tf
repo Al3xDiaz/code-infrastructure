@@ -4,7 +4,6 @@ variable "instance_ingress_rules" {
         from_port = number
         to_port = number
         protocol = string
-        cidr_blocks = list(string)
     }))
 }
 variable "db_ingress_rules" {
@@ -13,7 +12,6 @@ variable "db_ingress_rules" {
         from_port = number
         to_port = number
         protocol = string
-        cidr_blocks = list(string)
     }))
 }
 variable "lb_ingress_rules" {
@@ -22,6 +20,5 @@ variable "lb_ingress_rules" {
         from_port = number
         to_port = number
         protocol = string
-        cidr_blocks = list(string)
     }))
 }

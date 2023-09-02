@@ -6,3 +6,11 @@ variable	public_ip {
 	default = ""
 	description = "The IPv4 address of the instance to update"
 }
+variable target_groups {
+	description = "The target groups to update"
+	type = list(object({
+		port = number
+		hosts = list(string)
+		name = string
+	}))
+}

@@ -59,6 +59,7 @@ module elb {
   source = "./modules/elb"
 	depends_on = [module.ec2]
 	cloudflare_api_token = var.cloudflare_api_token
+	target_groups = var.target_groups
 }
 output "resources" {
   value = {
