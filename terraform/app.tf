@@ -8,6 +8,10 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 4.0"
     }
+		mysql = {
+      source = "petoju/mysql"
+      version = "3.0.42"
+    }
   }
 }
 provider "cloudflare" {
@@ -40,7 +44,7 @@ module ec2 {
 	db_instance_identifier = var.db_identifier
 	db_username = var.db_username
 	db_password = var.db_password
-	depends_on = [module.vpc,module.rds]
+	depends_on = [module.vpc]
 }
 module rds {
   source = "./modules/rds"
@@ -52,7 +56,6 @@ module rds {
   db_password = var.db_password
   db_storage = var.db_storage
   db_identifier = var.db_identifier
-	depends_on = [module.vpc]
 	db_subnet_group_name = module.vpc.aws_db_subnet_group
 }
 module elb {
