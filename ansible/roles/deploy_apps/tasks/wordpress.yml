@@ -1,0 +1,44 @@
+---
+- name: wordpress | Creates directory
+  ansible.builtin.file:
+    path: /home/{{ ansible_user }}/projects/wordpress/
+    state: directory
+    mode: "0644"
+- name: wordpress | Create docker-compose.yml
+  ansible.builtin.copy:
+    content: |
+      version: '3.1'
+      services:
+        wordpress:
+          user: root
+          image: wordpress
+          restart: always
+          ports:
+            - 8080:80
+          environment:
+            WORDPRESS_DB_HOST: {{ wordpress_db_host }}
+            WORDPRESS_DB_USER: {{ wordpress_db_user }}
+            WORDPRESS_DB_PASSWORD: {{ wordpress_db_password }}
+            WORDPRESS_DB_NAME: {{ wordpress_db_name }}
+          volumes:
+            - /data/wordpress:/var/www/html
+          deploy:
+            resources:
+              limits:
+                cpus: '0.5'
+                memory: 512M
+    dest: /home/{{ ansible_user }}/projects/wordpress/docker-compose.yml
+    mode: "0644"
+  vars:
+    wordpress_db_host: "{{ db_host }}"
+    wordpress_db_name: wordpress
+    wordpress_db_password: "{{ db_password }}"
+    wordpress_db_user: "{{ db_username }}"
+- name: Wordpress | run wordpress with docker compose
+  register: output
+  community.docker.docker_compose:
+    build: "yes"
+    project_name: wordpress
+    project_src: /home/{{ ansible_user }}/projects/wordpress/
+    recreate: always
+    state: present

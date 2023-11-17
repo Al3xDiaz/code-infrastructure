@@ -33,7 +33,7 @@ config_infrastructure:
       - ansible/inventory
   environment: production
   image:
-    entrypoint: ['']
+    entrypoint: [""]
     name: registry.gitlab.com/chaoticteams/ansible
   only:
     - main
@@ -43,7 +43,7 @@ config_infrastructure:
   stage: config_infrastructure
   variables:
     ANSIBLE_INVENTORY: ./inventory
-    ANSIBLE_PIPELINING: 'true'
+    ANSIBLE_PIPELINING: "true"
 destroy:
   cache:
     key: build_cache
@@ -64,7 +64,7 @@ destroy:
   stage: destroy
   when: manual
 image:
-  entrypoint: ['']
+  entrypoint: [""]
   name: hashicorp/terraform
 init:
   cache:

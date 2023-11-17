@@ -1,21 +1,21 @@
 ---
-- include_tasks: 01docker.yml
-  name: Install Docker
+- name: Install Docker
+  ansible.builtin.include_tasks: "01docker.yml"
   vars:
     file_path: /compose/releases/download/1.29.2/docker-compose-linux-x86_64
     file_url: https://github.com/docker
   when:
     - ansible_os_family == 'Debian'
-- include_tasks: 02docker-compose.yml
-  name: Install Docker Compose
+- name: Install Docker Compose
+  ansible.builtin.include_tasks: "02docker-compose.yml"
   vars:
     file_path: /compose/releases/download/1.29.2/docker-compose-linux-x86_64
     file_url: https://github.com/docker
   when:
     - ansible_os_family == 'Debian'
-- name: add user to docker group
-  user:
-    append: 'yes'
+- name: Add user to docker group
+  ansible.builtin.user:
+    append: "yes"
     groups: docker
     name: "{{ ansible_user }}"
   when:

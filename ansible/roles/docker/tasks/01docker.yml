@@ -1,10 +1,11 @@
 ---
-- apt:
+- name: Docker | update packages using apt
+  ansible.builtin.apt:
     cache_valid_time: 3600
     force_apt_get: true
     update_cache: true
-  name: update packages using apt
-- apt:
+- name: Docker | docker dependencies
+  ansible.builtin.apt:
     pkg:
       - apt-transport-https
       - ca-certificates
@@ -15,23 +16,26 @@
       - python3-setuptools
       - gnupg
     state: present
-    update_cache: 'yes'
-  name: docker dependencies
-- apt_key:
+    update_cache: "yes"
+
+- name: "01docker | Add Docker`s official GPG key"
+  ansible.builtin.apt_key:
     state: present
     url: https://download.docker.com/linux/ubuntu/gpg
-  name: Add Docker`s official GPG key
-- apt_repository:
+
+- name: "01docker | Add Docker Repository"
+  ansible.builtin.apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu focal stable
     state: present
-  name: Add Docker Repository
+
   register: docker
 # Desciption of the Ansible playbook
-- apt:
+- name: "01docker | Update apt and install docker-ce"
+  ansible.builtin.apt:
     name: docker-ce
     state: present
-    update_cache: 'yes'
-  name: Update apt and install docker-ce
-- name: Install Docker Module for Python
-  pip:
+    update_cache: "yes"
+
+- name: "01docker | Install Docker Module for Python"
+  ansible.builtin.pip:
     name: docker

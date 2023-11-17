@@ -1,7 +1,0 @@
----
-- include_tasks: 01wordpress.yml
-  name: run containers in instance
-# - include_tasks: 02email.yml
-#   name: run containers in instance
-- include_tasks: 03prometeus.yml
-  name: run containers for monitoring

@@ -1,0 +1,5 @@
+---
+- name: Main | Run containers in instance
+  ansible.builtin.include_tasks: wordpress.yml
+- name: Main | Run containers for monitoring
+  ansible.builtin.include_tasks: prometheus.yml

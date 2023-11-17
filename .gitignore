@@ -15,4 +15,3 @@ backend.auto.tfvars
 inventory
 .ash_history
 .ssh/
-ansible/roles/deploy-apps/tasks/template.yml

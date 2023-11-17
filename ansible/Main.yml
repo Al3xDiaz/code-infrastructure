@@ -1,0 +1,8 @@
+---
+- name: Main | playbook
+  become: true
+  hosts: all
+  roles:
+    - role: docker
+    - become: false
+      role: deploy_apps

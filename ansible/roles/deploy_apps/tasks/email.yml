@@ -1,9 +1,11 @@
 ---
-- ansible.builtin.file:
-    path: /home/{{ansible_user}}/projects/email/
+- name: email | Creates directory
+  ansible.builtin.file:
+    path: /home/{{ ansible_user }}/projects/email/
     state: directory
-  name: Creates directory
-- ansible.builtin.copy:
+    mode: "0644"
+- name: email | Create docker-compose.yml
+  ansible.builtin.copy:
     content: |
       version: "3.4"
       services:
@@ -31,12 +33,12 @@
               limits:
                 cpus: '0.5'
                 memory: 512M
-    dest: /home/{{ansible_user}}/projects/email/docker-compose.yml
-  name: Create docker-compose.yml
-- community.docker.docker_compose:
-    build: 'yes'
+    dest: /home/{{ ansible_user }}/projects/email/docker-compose.yml
+    mode: "0644"
+- name: Email | run email with docker compose
+  community.docker.docker_compose:
     project_name: email
-    project_src: /home/{{ansible_user}}/projects/email/
+    build: "yes"
+    project_src: /home/{{ ansible_user }}/projects/email/
     recreate: always
     state: present
-  name: run email with docker compose
