@@ -90,7 +90,7 @@ resource "aws_lb" "lb" {
 	load_balancer_type = "application"
 	security_groups = ["${data.aws_security_group.main.id}"]
 	subnets = ["${data.aws_subnet.public_0.id}","${data.aws_subnet.public_1.id}"]
-	
+
 
 	access_logs {
     bucket   = "${aws_s3_bucket.elb_logs.bucket}"
@@ -107,7 +107,7 @@ resource "aws_lb_target_group" "tg" {
 	target_type = "ip"
 	health_check {
 		interval = 30
-		path = "/"
+		path = "${var.target_groups[count.index].path}"
 		port = "${var.target_groups[count.index].port}"
 		protocol = "HTTP"
 		timeout = 5
@@ -122,7 +122,7 @@ resource "aws_lb_listener" "listener-with-ssl" {
 	protocol = "HTTPS"
 	ssl_policy = "ELBSecurityPolicy-2016-08"
 	certificate_arn = "${aws_acm_certificate.cert.arn}"
-	
+
 	default_action {
 		target_group_arn = "${aws_lb_target_group.tg[0].arn}"
 		type = "forward"
