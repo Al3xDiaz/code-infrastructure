@@ -10,6 +10,7 @@ variable target_groups {
 	description = "The target groups to update"
 	type = list(object({
 		port = number
+		path = string
 		hosts = list(string)
 		name = string
 	}))

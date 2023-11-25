@@ -24,7 +24,7 @@ variable default_tags {
 #RDS
 variable "db_engine" {
   description = "engine type"
-  default = "mysql"  
+  default = "mysql"
 }
 
 variable "db_engine_version"{
@@ -111,7 +111,7 @@ variable id_private_key_path {
 }
 variable "instance_type" {
   description = "Instance type"
-  default = "t2.micro"  
+  default = "t2.micro"
 }
 variable "instance_count" {
   default = 1
@@ -134,6 +134,7 @@ variable target_groups {
 	type = list(object({
 		hosts = list(string)
 		port = number
+		path = string
 		name = string
 	}))
 }
