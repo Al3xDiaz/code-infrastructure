@@ -7,7 +7,7 @@
     repo: https://github.com/Al3xDiaz/prometheus-grafana.git
     update: "yes"
     force: "yes"
-    version: 011c288
+    version: "011c288"
 - name: Prometheus | override volumes
   ansible.builtin.copy:
     content: |

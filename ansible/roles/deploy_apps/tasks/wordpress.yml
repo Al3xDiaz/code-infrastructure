@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: /home/{{ ansible_user }}/projects/wordpress/
     state: directory
-    mode: '0755'
+    mode: "0755"
     owner: "{{ ansible_user }}"
 - name: wordpress | Create docker-compose.yml
   ansible.builtin.copy:

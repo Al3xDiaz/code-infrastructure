@@ -38,4 +38,4 @@
 
 - name: "01docker | Install Docker Module for Python"
   ansible.builtin.pip:
-    name: docker
+    name: docker==6.1.3

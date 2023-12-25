@@ -1,13 +1,3 @@
-# Infrastructure Provider
-
-## Setup
-create .env
-
-```bash
-echo -e "AWS_ACCESS_KEY_Id=
-aws_secret_access_key=" > .env
-```
-
 # TERRAFORM
 
 terraform init
