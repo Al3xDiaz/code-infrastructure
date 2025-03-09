@@ -15,3 +15,4 @@ backend.auto.tfvars
 inventory
 .ash_history
 .ssh/
+deleteregistries.bash

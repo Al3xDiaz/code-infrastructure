@@ -1,19 +1,75 @@
 ---
+mode: Mainline
 branches:
+  main:
+    regex: ^master$|^main$
+    tag: ""
+    increment: Inherit
+    mode: ContinuousDeployment
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    source-branches: [develop]
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: true
+    pre-release-weight: 55000
   develop:
     regex: ^dev(elop)?(ment)?$
-    tag: beta
-  master:
-    regex: ^ma(ster|in)$
+    mode: ContinuousDeployment
     tag: alpha
-  pull-request:
-    regex: ^(pull|pull\-requests|pr)[\-/_].*$
-    tag: prerelease
-commit-message-incrementing: Enabled
-ignore:
-  sha: []
-major-version-bump-message: \[(breaking|major)\]\s?.*
-merge-message-formats: {}
-minor-version-bump-message: \[(feat|feature|minor)\]\s?.*
-mode: mainline
-patch-version-bump-message: \[(fix|patch)\]\s?.*
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
+    source-branches: [feature, support, hotfix]
+    tracks-release-branches: true
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 0
+  feature:
+    regex: ^features?[/-]\w
+    mode: ContinuousDelivery
+    tag: useBranchName
+    increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    source-branches: []
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 30000
+  refactor:
+    regex: ^refactor?[/-]\w
+    mode: ContinuousDelivery
+    tag: useBranchName
+    increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    source-branches: []
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 30000
+  hotfix:
+    regex: ^hotfix(es)?[/-]\w
+    mode: ContinuousDelivery
+    tag: beta
+    increment: Patch
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    source-branches: []
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 30000
+  support:
+    regex: ^support[/-]\w
+    mode: ContinuousDelivery
+    tag: ""
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    source-branches: []
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: true
+    pre-release-weight: 55000
